@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
-import Menubar from './components/Menubar.vue'  
+import Menubar from './components/Menubar.vue'
+import Breadcrumb from './components/Breadcrumb.vue'  
 
 </script>
 
@@ -9,6 +10,7 @@ import Menubar from './components/Menubar.vue'
   <Menubar />  
   </header>
   <RouterView />
+
 </template>
 
 <style scoped>
