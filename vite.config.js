@@ -16,9 +16,9 @@ export default defineConfig({
         enabled: true, // For testing PWA features in dev environment
       },
       manifest: {
-        name: "My Awesome App",
+        name: "Vuejs Starter",
         short_name: "MyApp",
-        description: "My Progressive Web App description",
+        description: "Example Starter Vuejs PWA",
         theme_color: "#ffffff",
         icons: [
           {
