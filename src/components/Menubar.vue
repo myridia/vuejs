@@ -120,7 +120,7 @@ const xitems = ref([]);
 
 <style scoped>
   .search-container {
-  background-color:red;
+
   display: flex;
   gap: 0.5rem;
   align-items: center;
