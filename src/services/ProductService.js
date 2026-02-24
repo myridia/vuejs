@@ -2,6 +2,9 @@
 import Product from "../models/Product";
 
 class ProductService {
+  async get() {
+    return  "helllo";
+  }  
   async getAllProducts() {
     // Implement logic to retrieve all products from the database
   }
