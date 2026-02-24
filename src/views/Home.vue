@@ -1,5 +1,7 @@
 <script setup>
-  import Breadcrumb from '../components/Breadcrumb.vue'
+import Breadcrumb from '../components/Breadcrumb.vue'
+import Table from '../components/Table.vue'
+
 import { ref } from "vue";
   const items = ref([
   ]);
@@ -16,7 +18,9 @@ function handle_a2d() {
 
     <Button2 label="Add to Desktop"  
       @click="handle_a2d" class="custom_wrap_button"
-    />
+	     />
+
+    <Table />
 </template>
 
 <style>
