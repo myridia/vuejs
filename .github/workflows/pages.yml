@@ -1,0 +1,36 @@
+name: FTP Pages
+on:
+  push:
+    branches:
+     - "*"
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+jobs:
+  deploy:
+    if: github.repository_owner == 'myridia'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2    
+      - name: Compile
+        run: |
+         sudo apt-get install npm lftp -y
+         npm install 
+         npm run build
+         ls dist
+      - name: FTP upload
+        run: |
+           lftp -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }}  -e 'set ssl:verify-certificate false;mirror --reverse --delete --verbose=3 --only-newer --ignore-time  --exclude .git/ --exclude old --exclude logs --parallel=10  --use-pget-n=10  ./dist/ /vuejs/' ${{ secrets.FTP_HOST }}
+
+
+      
