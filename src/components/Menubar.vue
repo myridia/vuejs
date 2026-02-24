@@ -1,6 +1,11 @@
 <script setup>
   import Menubar from 'primevue/menubar';
 import { ref } from "vue";
+
+
+import { inject } from 'vue'
+
+
 import { useRouter } from 'vue-router';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
@@ -54,6 +59,21 @@ const value = ref(null);
 const xitems = ref([]);
 
 
+//const ButtonComponent = inject('a2d')
+
+
+
+function  handle_search() {
+
+  console.log("xxxxxxX");
+}
+
+function  handle_a2d() {
+
+  console.log("...add to desktop");
+}
+
+
 
 
 </script>
@@ -65,7 +85,6 @@ const xitems = ref([]);
 
 <template>
 <Menubar :model="items" >
-
 
   
  <template #start>
@@ -91,8 +110,12 @@ const xitems = ref([]);
 
 
     <template #end>
+      <div class="search-container">
 
-<div class="search-container">
+    <Button2 label="Add to Desktop"  
+      @click="handle_a2d" class="custom_wrap_button"
+    />
+
     <AutoComplete 
       v-model="value" 
       :suggestions="xitems" 
@@ -104,12 +127,15 @@ const xitems = ref([]);
       icon="pi pi-search"
       severity="primary"
       size="small"
-      @click="handleSearch"
+      @click="handle_search"
     />
-  </div>
+      </div>
 
       
- </template>
+      
+    </template>
+
+    
 </Menubar>
 
 
@@ -119,6 +145,11 @@ const xitems = ref([]);
 
 
 <style scoped>
+  
+  .custom_wrap_button {
+   white-space: nowrap;
+  }
+  
   .search-container {
 
   display: flex;

@@ -2,7 +2,9 @@
   import Breadcrumb from '../components/Breadcrumb.vue'
   import { ref } from "vue";
   const items = ref([
-    { label: 'Login' },  
+      { label: 'Login',
+	  route: '/login'	  	
+      },  
 ]);  
 </script>
 

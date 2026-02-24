@@ -2,7 +2,10 @@
   import Breadcrumb from '../components/Breadcrumb.vue'
   import { ref } from "vue";
   const items = ref([
-    { label: 'Contact' },  
+      {
+	  label: 'Contact',
+	  route: '/contact',
+      },  
 ]);  
 </script>
 

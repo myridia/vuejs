@@ -21,13 +21,13 @@ const router = createRouter({
     {
       path: "/contact",
       name: "contact",
-      component: () => Contact,
+      component: Contact,
     },
 
     {
       path: "/login",
       name: "login",
-      component: () => Login,
+      component: Login,
     },
   ],
 });
