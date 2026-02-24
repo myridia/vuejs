@@ -112,9 +112,7 @@ function  handle_a2d() {
     <template #end>
       <div class="search-container">
 
-    <Button2 label="Add to Desktop"  
-      @click="handle_a2d" class="custom_wrap_button"
-    />
+
 
     <AutoComplete 
       v-model="value" 
