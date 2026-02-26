@@ -35,12 +35,15 @@ const installPWA = async () => {
 
 
 <template>
-  <Button label="Add to Desktop" v-if="supportsPWA && deferredPrompt" @click="installPWA" class="custom_wrap_butt" />
+  <Button label="Add to Desktop" v-if="supportsPWA && deferredPrompt" @click="installPWA" class="a2d" />
   <p v-else-if="supportsPWA && !deferredPrompt">App already installed</p>
   <p v-else>PWA not supported in this browser</p>
 </template>
 
 <style>
+  .a2d {
+   white-space: nowrap;
+  }
 </style>
 
 
