@@ -31,10 +31,11 @@ jobs:
        
       - name: Compile
         run: |
-         sudo apt-get install lftp -y
+         sudo apt-get install lftp tree -y
          npm install 
          npm run build
-         ls dist
+         cd dist
+         tree 
       #- name: FTP upload
       #  run: |
       #     lftp -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }}  -e 'set ssl:verify-certificate false;mirror --reverse --delete --verbose=3 --only-newer --ignore-time  --exclude .git/ --exclude old --exclude logs --parallel=10  --use-pget-n=10  ./dist/ /vuejs/' ${{ secrets.FTP_HOST }}
