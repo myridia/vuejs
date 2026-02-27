@@ -1,12 +1,10 @@
 <script setup>
-  import Breadcrumb from '../components/Breadcrumb.vue'
-import { ref } from "vue";
-  const items = ref([
-  ]);
+import Breadcrumb from '../components/Breadcrumb.vue'
+import { ref,onMounted,inject } from "vue";
+const items = ref([]);
 
-function handle_a2d() {
-   console.log("handle a2d")
-}
+const log = inject('log'); // Inject the ref
+log.value.info("hello");
 
 </script>
 
@@ -14,9 +12,6 @@ function handle_a2d() {
 <template>
 <Breadcrumb :items="items"  />
 
-    <Button2 label="Add to Desktop"  
-      @click="handle_a2d" class="custom_wrap_button"
-    />
 </template>
 
 <style>

@@ -16,18 +16,18 @@ export default defineConfig({
         enabled: true, // For testing PWA features in dev environment
       },
       manifest: {
-        name: "Vuejs Starter",
-        short_name: "MyApp",
-        description: "Example Starter Vuejs PWA",
+        name: "Vuejs",
+        short_name: "Vuejs Starter",
+        description: "Starter Vuejs PWA, Sqlite3 Setup",
         theme_color: "#ffffff",
         icons: [
           {
-            src: "img/pwa-192x192.png", // Path to your 192x192 icon
+            src: "img/icon_192x192.png", // Path to your 192x192 icon
             sizes: "192x192",
             type: "image/png",
           },
           {
-            src: "img/pwa-512x512.png", // Path to your 512x512 icon
+            src: "img/icon_512x512.png", // Path to your 512x512 icon
             sizes: "512x512",
             type: "image/png",
             purpose: "any maskable",
@@ -35,7 +35,7 @@ export default defineConfig({
         ],
         screenshots: [
           {
-            src: "img/screenshot.png",
+            src: "img/screenshot_320x320.png",
             sizes: "320x320",
             type: "image/png",
             form_factor: "wide",

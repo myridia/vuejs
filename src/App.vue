@@ -1,7 +1,19 @@
 <script setup>
+import { provide, ref, onMounted} from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 import Menubar from './components/Menubar.vue'
-import Breadcrumb from './components/Breadcrumb.vue'  
+import Breadcrumb from './components/Breadcrumb.vue'
+import Log from './components/Log.vue'
+import {Log2textarea} from "log2textarea/dist/log2textarea.js";
+
+const log = ref(null);
+
+
+onMounted(() => {
+  log.value = new Log2textarea("logger");
+  provide('log', log); // Provide the ref
+});
+
 </script>
 
 <template>
@@ -9,7 +21,7 @@ import Breadcrumb from './components/Breadcrumb.vue'
   <Menubar />  
 </header>
   <RouterView />
-
+<Log/>
 </template>
 
 <style scoped>

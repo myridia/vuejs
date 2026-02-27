@@ -1,11 +1,8 @@
 <script setup>
-  import Menubar from 'primevue/menubar';
+import Menubar from 'primevue/menubar';
+import Add2Desktop from '../components/Add2Desktop.vue'
 import { ref } from "vue";
-
-
 import { inject } from 'vue'
-
-
 import { useRouter } from 'vue-router';
 import InputText from 'primevue/inputtext';
 import Button from 'primevue/button';
@@ -20,6 +17,13 @@ const items = ref([
             router.push('/');
         }
     },
+    {
+        label: 'Shop',
+        icon: 'pi pi-shop',
+        command: () => {
+            router.push('/shop');
+        }
+    },    
     {
         label: 'About',
         icon: 'pi pi-link',
@@ -88,7 +92,8 @@ function  handle_a2d() {
 
   
  <template #start>
-      <a href="/"><img alt="logo" src="/img/logo.png" height="40" /></a>
+   <a href="/"><img alt="logo" src="/img/logo.png" height="40" /></a>
+
  </template>
 
 
@@ -105,14 +110,14 @@ function  handle_a2d() {
             <span>{{ item.label }}</span>
             <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down" />
         </a>
+
     </template>
 
 
 
     <template #end>
-      <div class="search-container">
-
-
+    <div class="search-container" >
+    <Add2Desktop />	   
 
     <AutoComplete 
       v-model="value" 
@@ -127,7 +132,7 @@ function  handle_a2d() {
       size="small"
       @click="handle_search"
     />
-      </div>
+    </div>
 
       
       
@@ -144,9 +149,6 @@ function  handle_a2d() {
 
 <style scoped>
   
-  .custom_wrap_button {
-   white-space: nowrap;
-  }
   
   .search-container {
 
