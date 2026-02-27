@@ -19,12 +19,19 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-
-      - name: Checkout code
-        uses: actions/checkout@v2    
+      - name: Checkout code   
+        uses: actions/checkout@v6
+       
+      - name: setup  node
+        uses: actions/setup-node@v4
+        with:
+         node-version: '24.x'            # Your node version
+         registry-url: 'https://registry.npmjs.org'
+         always-auth: true
+       
       - name: Compile
         run: |
-         sudo apt-get install npm lftp -y
+         sudo apt-get install lftp -y
          npm install 
          npm run build
          ls dist
