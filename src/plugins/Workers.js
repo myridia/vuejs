@@ -15,27 +15,27 @@ export default {
               log.value.info(message);
               //log.info(argumentos);
               break;
-            case "iniciado":
-              [$nombre, $fechaNacimiento, $insertar, $obtener].forEach(
-                (elemento) => (elemento.disabled = false),
-              );
+            case "init":
+              log.value.info("...init");
+              log.value.info(message);
+              //[$nombre, $fechaNacimiento, $insertar, $obtener].forEach(
+              //  (elemento) => (elemento.disabled = false),
+              //);
               break;
-            case "persona_insertada":
-              console.log(message);
+            case "security_insert":
+              log.value.info("security_insert");
+              lob.value.log(message);
               //log.info("...persona insertada");
               break;
 
-            case "log_message":
-              console.log(message);
-              //log.info(argumentos);
-              break;
-
-            case "personas_obtenidas":
-              const personas = argumentos;
-              $contenedorPersonas.innerHTML = "";
-              for (const persona of personas) {
-                //  $contenedorPersonas.innerHTML += `<strong>${persona.nombre}</strong> ${persona.fechaNacimiento}<br>`;
-              }
+            case "get_securities":
+              const securities = message;
+              log.value.info("get_insert");
+              lob.value.log(message);
+              //$contenedorPersonas.innerHTML = "";
+              //for (const persona of personas) {
+              //  $contenedorPersonas.innerHTML += `<strong>${persona.nombre}</strong> ${persona.fechaNacimiento}<br>`;
+              //}
               break;
           }
         };

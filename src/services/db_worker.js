@@ -1,104 +1,69 @@
 import sqlite3InitModule from "@sqlite.org/sqlite-wasm";
 
-self.addEventListener("install", (installEvent) => {
-  self.skipWaiting();
-  installEvent.waitUntil(
-    caches.open(app_name).then((cache) => {
-      return Promise.all(
-        assets.map((file) =>
-          cache
-            .add(file)
-            .catch((err) => console.error(`..failed to cache ${file}:`, err)),
-        ),
-      );
-    }),
-  );
-});
-
-self.addEventListener("activate", function (event) {
-  console.log("[Service Worker] Activating Service Worker ....", event);
-
-  event.waitUntil(
-    caches.keys().then(function (keyList) {
-      return Promise.all(
-        keyList.map(function (key) {
-          console.log("key: " + key);
-          if (key !== app_name && key !== app_name) {
-            return caches.delete(key);
-          }
-        }),
-      );
-    }),
-  );
-  event.waitUntil(initDB());
-  return self.clients.claim();
-});
-
-const NOMBRE_BASE_DE_DATOS = "personas.sqlite";
+const DB_NAME = "personas.sqlite";
 let db;
-const iniciar = async () => {
+const init = async () => {
   const sqlite3 = await sqlite3InitModule({
     print: console.log,
     printErr: console.error,
   });
   if ("opfs" in sqlite3) {
-    db = new sqlite3.oo1.OpfsDb(NOMBRE_BASE_DE_DATOS);
-    let msg = "OPFS is available, created persisted database at " + db.filename;
-    //console.log(msg);
+    db = new sqlite3.oo1.OpfsDb(DB_NAME);
+    let msg =
+      "OPFS is available, create a persisted database at " + db.filename;
     self.postMessage(["log_message", msg]);
   } else {
     db = new sqlite3.oo1.DB(NOMBRE_BASE_DE_DATOS, "ct");
     const msg =
-      "OPFS is not available, created transient database" + db.filename;
-    //console.log(msg);
+      "OPFS is NOT available,create a transient database" + db.filename;
     self.postMessage(["log_message", msg]);
   }
-  await db.exec(`CREATE TABLE IF NOT EXISTS personas(
+  await db.exec(`CREATE TABLE IF NOT EXISTS securities(
 				id INTEGER PRIMARY KEY AUTOINCREMENT,
-				nombre TEXT NOT NULL,
-				fechaNacimiento TEXT NOT NULL)`);
+				name TEXT NOT NULL DEFAULT '',
+				code TEXT NOT NULL DEFAULT '',
+				qty  REAL NOT NULL DEFAULT 0)`);
 };
 
-const insertarPersona = async (nombre, fechaNacimiento) => {
+const insert_security = async (nombre, fechaNacimiento) => {
   const filas = await db.exec({
-    sql: "INSERT INTO personas(nombre, fechaNacimiento) VALUES (?, ?) RETURNING *",
-    bind: [nombre, fechaNacimiento],
+    sql: "INSERT INTO securities(name, code, qty) VALUES (?, ?,?) RETURNING *",
+    bind: [name, code, qty],
     returnValue: "resultRows",
     rowMode: "object",
   });
   return filas[0];
 };
-const obtenerPersonas = async () => {
+const get_securities = async () => {
   return await db.exec({
-    sql: "SELECT id, nombre, fechaNacimiento FROM personas",
+    sql: "SELECT id, name, code, qty FROM securities",
     returnValue: "resultRows",
     rowMode: "object",
   });
 };
 self.onmessage = async (evento) => {
-  const accion = evento.data[0];
-  const argumentos = evento.data[1];
-  switch (accion) {
+  const id = evento.data[0];
+  const message = evento.data[1];
+  switch (id) {
     case "test":
-      await iniciar();
-      self.postMessage(["test", "your message was:" + argumentos]);
+      await init();
+      self.postMessage(["test", "your message was:" + message]);
       break;
-
-    case "iniciar":
-      await iniciar();
+    case "init":
+      await init();
       self.postMessage(["log_message", "init db"]);
-      self.postMessage(["iniciado"]);
+      self.postMessage(["init"]);
       break;
-    case "insertar_persona":
-      const personaRecienInsertada = await insertarPersona(
-        argumentos.nombre,
-        argumentos.fechaNacimiento,
+    case "insert_security":
+      const data = await insert_security(
+        message.nombre,
+        message.fechaNacimiento,
       );
-      self.postMessage(["persona_insertada", personaRecienInsertada]);
+      self.postMessage(["insert_security", personaRecienInsertada]);
       break;
-    case "obtener_personas":
-      const personas = await obtenerPersonas();
-      self.postMessage(["personas_obtenidas", personas]);
+    case "get_securities":
+      const securities = await get_securities();
+      self.postMessage(["get_securities", securities]);
       break;
   }
 };
