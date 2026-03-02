@@ -36,7 +36,7 @@ const insert_row = async (name, code, qty) => {
     returnValue: "resultRows",
     rowMode: "object",
   });
-  console.log(f);
+  console.log(f[0]);
   return f[0];
 };
 const get_securities = async () => {

@@ -22,21 +22,21 @@ const name = ref("");
 const code = ref("");
 const qty = ref("");
 
-const insert_security = async () => {
+const insert_row = async () => {
   if (name.value != "" && code.value != "" && parseFloat(qty.value)) {
     log.info("...insert_security");
-    //const _name = name.value;
-    //const _code = code.value;
-    //const _qty = parseFloat(qty.value);
     let msg = await Workers.post_message(worker, "insert_row", {
       name: name.value,
       code: code.value,
       qty: parseFloat(qty.value),
     });
   }
+  log.info(msg);
+};
 
-  //let msg = await Workers.post_message(worker,"test","my message");
-  //log.info(msg);
+const list_rows = async () => {
+  log.info("...list rows");
+
 };
 </script>
 
@@ -58,10 +58,16 @@ const insert_security = async () => {
     <label for="qty">qty</label>
   </IftaLabel>
   <Button
-    label="Insert Security"
-    @click="insert_security"
-    class="insert_security"
-  /><br />
+    label="Insert Row"
+    @click="insert_row"
+    class="insert_row"
+    /><br />
+
+  <Button
+    label="List Rowss"
+    @click="list_rows"
+    class="list_rows"
+  /><br />  
 </template>
 
 <style>
