@@ -1,16 +1,18 @@
 <script setup>
-import { provide, ref, onMounted} from 'vue';
+import { provide, ref, onMounted,inject} from 'vue';
 import { RouterLink, RouterView } from 'vue-router'
 import Menubar from './components/Menubar.vue'
 import Breadcrumb from './components/Breadcrumb.vue'
 import Log from './components/Log.vue'
-import {Log2textarea} from "log2textarea/dist/log2textarea.js";
 
-const log = ref(null);
+//const log = ref(null);
+const logService = inject('logService');
+const Workers = inject('Workers');
+const worker = inject('Worker');
 
 onMounted(() => {
-  log.value = new Log2textarea("logger");
-  provide('log', log.value); 
+    logService.initialize();
+    Workers.set_default_message(worker);    
 });
 
 </script>
