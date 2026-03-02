@@ -20,15 +20,22 @@ const init_sqlite3 = async () => {
   log.info(msg);
 };
 
+const name = ref('');
+const code = ref('');
+const qty = ref('');
+
 const insert_security = async () => {
   log.info("...insert_security");
-//  let msg = await Workers.post_message(worker,"test","my message");
+  log.info("name: " + name.value);
+  log.info("code: " + code.value);
+  log.info("qty: " + qty.value);    
+
+  //let msg = await Workers.post_message(worker,"test","my message");
   //log.info(msg);
 };
 
-
-
 </script>
+
 
 
 <template>
@@ -36,13 +43,13 @@ const insert_security = async () => {
 
 
 <IftaLabel>
-    <InputText id="namae" v-model="value" />
+    <InputText id="name" v-model="name" />
     <label for="name">Name</label>
 
 </IftaLabel>
 
 <IftaLabel>
-    <InputText id="code" v-model="value" />
+    <InputText id="code" v-model="code" />
     <label for="code">Code</label>    
 </IftaLabel>
 
