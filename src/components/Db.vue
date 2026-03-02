@@ -1,5 +1,7 @@
 <script setup>
-import Button from "primevue/button";  
+import Button from "primevue/button";
+import InputText from 'primevue/inputtext';
+import IftaLabel from 'primevue/iftalabel';
 import { ref,onMounted,inject } from "vue";
   const items = ref([
   ]);
@@ -18,13 +20,37 @@ const init_sqlite3 = async () => {
   log.info(msg);
 };
 
+const insert_security = async () => {
+  log.info("...insert_security");
+//  let msg = await Workers.post_message(worker,"test","my message");
+  //log.info(msg);
+};
+
 
 
 </script>
 
 
 <template>
-  <Button label="Init Sqlite3" @click="init_sqlite3" class="db_sqlite3" />
+<Button label="Init Sqlite3" @click="init_sqlite3" class="db_sqlite3" /><br>
+
+
+<IftaLabel>
+    <InputText id="namae" v-model="value" />
+    <label for="name">Name</label>
+
+</IftaLabel>
+
+<IftaLabel>
+    <InputText id="code" v-model="value" />
+    <label for="code">Code</label>    
+</IftaLabel>
+
+<IftaLabel>
+    <InputText id="qty" v-model="qty" />
+    <label for="qty">qty</label>    
+</IftaLabel>
+<Button label="Insert Security" @click="insert_security" class="insert_security" /><br>
 
 </template>
 
