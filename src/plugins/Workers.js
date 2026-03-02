@@ -22,7 +22,7 @@ export default {
               //  (elemento) => (elemento.disabled = false),
               //);
               break;
-            case "security_insert":
+            case "insert_row":
               log.value.info("security_insert");
               lob.value.log(message);
               //log.info("...persona insertada");

@@ -12,12 +12,8 @@ const worker = new Worker(new URL("./services/db_worker.js", import.meta.url), {
 });
 
 const app = createApp(App);
-//console.log("xxxxxxx");
-//console.log(Workers);
-//console.log("xxxxxxx");
-//worker_service.set_default_message(worker);
+
 app.provide("Worker", worker);
-//app.provide("Worker_service", worker_service);
 
 app.use(logServicePlugin);
 app.use(worker);
