@@ -36,7 +36,10 @@ const insert_row = async () => {
 
 const list_rows = async () => {
   log.info("...list rows");
-
+  console.log("aaaaaa");
+  let msg = await Workers.post_message(worker, "list_rows");
+  console.log(msg);
+  console.log("zzzzzzzzzzzz");
 };
 </script>
 
@@ -57,17 +60,9 @@ const list_rows = async () => {
     <InputText id="qty" v-model="qty" />
     <label for="qty">qty</label>
   </IftaLabel>
-  <Button
-    label="Insert Row"
-    @click="insert_row"
-    class="insert_row"
-    /><br />
+  <Button label="Insert Row" @click="insert_row" class="insert_row" /><br />
 
-  <Button
-    label="List Rowss"
-    @click="list_rows"
-    class="list_rows"
-  /><br />  
+  <Button label="List Rowss" @click="list_rows" class="list_rows" /><br />
 </template>
 
 <style>

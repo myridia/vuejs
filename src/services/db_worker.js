@@ -39,7 +39,7 @@ const insert_row = async (name, code, qty) => {
   console.log(f[0]);
   return f[0];
 };
-const get_securities = async () => {
+const get_rows = async () => {
   return await db.exec({
     sql: "SELECT id, name, code, qty FROM securities",
     returnValue: "resultRows",
@@ -53,23 +53,19 @@ self.onmessage = async (evento) => {
   switch (id) {
     case "test":
       await init();
-      self.postMessage(["test", "your message was:" + message]);
+      self.postMessage([id, "your message was:" + message]);
       break;
     case "init":
       await init();
-      //self.postMessage(["log_message", "init db"]);
-      //self.postMessage(["init"]);
+      self.postMessage([id, "init db"]);
       break;
     case "insert_row":
-      //      console.log(message.code);
-
-      const data = await insert_row(message.name, message.code, message.qty);
-
-      //self.postMessage(["insert_security", data]);
+      const msg = await insert_row(message.name, message.code, message.qty);
+      self.postMessage([id, msg]);
       break;
-    case "get_securities":
-      const securities = await get_securities();
-      self.postMessage(["get_securities", securities]);
+    case "get_rows":
+      const rows = await get_rows();
+      self.postMessage([id, rows]);
       break;
   }
 };
