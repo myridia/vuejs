@@ -8,7 +8,6 @@ const items = ref([{ label: "Securities", route: "securities" }]);
 
 <template>
   <Breadcrumb :items="items" />
-  <Table />
 </template>
 
 <style></style>

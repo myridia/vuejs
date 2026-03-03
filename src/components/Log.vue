@@ -16,7 +16,6 @@ const logger = ref([]);
 
 <style scoped>
 .wrapper_logger {
-  margin-left: 15px;
 }
 
 .wrapper_logger textarea {
