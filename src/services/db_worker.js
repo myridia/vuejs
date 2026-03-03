@@ -2,6 +2,10 @@ import sqlite3InitModule from "@sqlite.org/sqlite-wasm";
 
 const DB_NAME = "personas.sqlite";
 let db;
+
+/*************************************************************************************
+ Init Sqlite3 DB
+**************************************************************************************/
 const init = async () => {
   const sqlite3 = await sqlite3InitModule({
     print: console.log,
@@ -25,6 +29,9 @@ const init = async () => {
 				qty  REAL NOT NULL DEFAULT 0)`);
 };
 
+/*************************************************************************************
+ Insert Row Security
+**************************************************************************************/
 const insert_row = async (name, code, qty) => {
   console.log(name);
   console.log(code);
@@ -39,9 +46,13 @@ const insert_row = async (name, code, qty) => {
   console.log(f[0]);
   return f[0];
 };
+
+/*************************************************************************************
+ Get Rows Securities
+**************************************************************************************/
 const get_rows = async () => {
   return await db.exec({
-    sql: "SELECT id, name, code, qty FROM securities",
+    sql: "SELECT id, name, code, qty FROM securities ORDER BY id desc",
     returnValue: "resultRows",
     rowMode: "object",
   });
