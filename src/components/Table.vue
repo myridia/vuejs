@@ -1,37 +1,38 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+/******************************************************
+  https://primevue.org/datatable/
+******************************************************/
+import { onMounted, ref, inject } from "vue";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+//import ColumnGroup from "primevue/columngroup";
+import Row from "primevue/row";
 
-import DataTable from 'primevue/datatable';
-import Column from 'primevue/column';
-import ColumnGroup from 'primevue/columngroup';   // optional
-import Row from 'primevue/row';
-import Products from '../services/Products';
+const log = inject("logService");
+const worker = inject("Worker");
+const Workers = inject("Workers");
 
-const xproducts = ref([]);
+const data = ref([]);
 const category = ref("test");
-//const p = await new Products();
-
 
 onMounted(async () => {
-    const p = await new Products();
-    const ps = await p.get();
-    xproducts.value = ps;
+  let msg = await Workers.post_message(worker, "init", "my message");
+  data.value = await Workers.post_message(worker, "get_rows");
 });
-
-
 </script>
 <template>
-<h2>Category: {{category}}</h2>
-    <div class="card">
-        <DataTable :value="xproducts" tableStyle="min-width: 50rem" responsiveLayout="scroll">
-            <Column field="code" header="Code"></Column>
-            <Column field="name" header="Name"></Column>
-            <Column field="category" header="Category"></Column>
-            <Column field="quantity" header="Quantity"></Column>
-        </DataTable>
-    </div>
+  <div class="card">
+    <DataTable
+      :value="data"
+      tableStyle="min-width: 50rem"
+      responsiveLayout="scroll"
+    >
+      <Column field="id" sortable header="ID"></Column>
+      <Column field="name" sortable header="Name"></Column>
+      <Column field="code" sortable header="Code"></Column>
+      <Column field="qty" sortable header="Qty"></Column>
+    </DataTable>
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

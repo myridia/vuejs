@@ -1,0 +1,82 @@
+import sqlite3InitModule from "@sqlite.org/sqlite-wasm";
+
+const DB_NAME = "personas.sqlite";
+let db;
+
+/*************************************************************************************
+ Init Sqlite3 DB
+**************************************************************************************/
+const init = async () => {
+  const sqlite3 = await sqlite3InitModule({
+    print: console.log,
+    printErr: console.error,
+  });
+  if ("opfs" in sqlite3) {
+    db = new sqlite3.oo1.OpfsDb(DB_NAME);
+    let msg =
+      "OPFS is available, create a persisted database at " + db.filename;
+    self.postMessage(["log_message", msg]);
+  } else {
+    db = new sqlite3.oo1.DB(NOMBRE_BASE_DE_DATOS, "ct");
+    const msg =
+      "OPFS is NOT available,create a transient database" + db.filename;
+    self.postMessage(["log_message", msg]);
+  }
+  await db.exec(`CREATE TABLE IF NOT EXISTS securities(
+				id INTEGER PRIMARY KEY AUTOINCREMENT,
+				name TEXT NOT NULL DEFAULT '',
+				code TEXT NOT NULL DEFAULT '',
+				qty  REAL NOT NULL DEFAULT 0)`);
+};
+
+/*************************************************************************************
+ Insert Row Security
+**************************************************************************************/
+const insert_row = async (name, code, qty) => {
+  console.log(name);
+  console.log(code);
+  console.log(qty);
+
+  const f = await db.exec({
+    sql: "INSERT INTO securities(name, code, qty) VALUES (?, ?,?) RETURNING *",
+    bind: [name, code, qty],
+    returnValue: "resultRows",
+    rowMode: "object",
+  });
+  console.log(f[0]);
+  return f[0];
+};
+
+/*************************************************************************************
+ Get Rows Securities
+**************************************************************************************/
+const get_rows = async () => {
+  return await db.exec({
+    sql: "SELECT id, name, code, qty FROM securities ORDER BY id desc",
+    returnValue: "resultRows",
+    rowMode: "object",
+  });
+};
+
+self.onmessage = async (evento) => {
+  const id = evento.data[0];
+  const message = evento.data[1];
+  switch (id) {
+    case "test":
+      await init();
+      self.postMessage([id, "your message was:" + message]);
+      break;
+    case "init":
+      await init();
+      self.postMessage([id, "init db"]);
+      break;
+    case "insert_row":
+      const msg = await insert_row(message.name, message.code, message.qty);
+      self.postMessage([id, msg]);
+      break;
+    case "get_rows":
+      const rows = await get_rows();
+      self.postMessage([id, rows]);
+      break;
+  }
+};

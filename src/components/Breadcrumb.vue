@@ -22,7 +22,7 @@ const props = defineProps({
 
 
 <template>
-    <div class="card flex justify-center">
+    <div class="card flex justify-center breadcrumb">
         <Breadcrumb :home="home" :model="items">
             <template #item="{ item, props }">
                 <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
@@ -44,7 +44,8 @@ const props = defineProps({
 
 
 <style>
+  
 .p-breadcrumb  {
-  margin-top: 65px;
+    margin-top: 65px;
 }
 </style>

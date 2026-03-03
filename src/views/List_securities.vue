@@ -1,13 +1,14 @@
 <script setup>
 import Breadcrumb from "../components/Breadcrumb.vue";
-import Db from "../components/Db.vue";
-import { ref, onMounted, inject } from "vue";
-const items = ref([]);
+import Table from "../components/Table.vue";
+
+import { ref } from "vue";
+const items = ref([{ label: "Securities", route: "securities" }]);
 </script>
 
 <template>
   <Breadcrumb :items="items" />
-  <Db />
+  <Table />
 </template>
 
 <style></style>

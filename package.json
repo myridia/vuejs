@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@primeuix/themes": "^2.0.3",
+    "@sqlite.org/sqlite-wasm": "^3.51.2-build6",
     "axios": "^1.13.5",
     "log2textarea": "^2.0.2",
     "primeicons": "^7.0.0",

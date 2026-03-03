@@ -1,162 +1,161 @@
 <script setup>
-import Menubar from 'primevue/menubar';
-import Add2Desktop from '../components/Add2Desktop.vue'
+import Menubar from "primevue/menubar";
+import Add2Desktop from "../components/Add2Desktop.vue";
 import { ref } from "vue";
-import { inject } from 'vue'
-import { useRouter } from 'vue-router';
-import InputText from 'primevue/inputtext';
-import Button from 'primevue/button';
-import 'primeicons/primeicons.css'
+import { inject } from "vue";
+import { useRouter } from "vue-router";
+import InputText from "primevue/inputtext";
+import Button from "primevue/button";
+import "primeicons/primeicons.css";
 const router = useRouter();
-import AutoComplete from 'primevue/autocomplete';
+import AutoComplete from "primevue/autocomplete";
 const items = ref([
-    {
-        label: 'Home',
-        icon: 'pi pi-home',
-        command: () => {
-            router.push('/');
-        }
+  {
+    label: "Home",
+    icon: "pi pi-home",
+    command: () => {
+      router.push("/");
     },
-    {
-        label: 'Shop',
-        icon: 'pi pi-shop',
-        command: () => {
-            router.push('/shop');
-        }
-    },    
-    {
-        label: 'About',
-        icon: 'pi pi-link',
-        command: () => {
-            router.push('/about');
-        }
+  },
+  {
+    label: "Securities",
+    icon: "pi pi-building-columns",
+    command: () => {
+      router.push("/securities");
     },
-    {
-        label: 'Contact',
-	icon: 'pi pi-envelope',
+    items: [
+      {
+        label: "List Securities",
+        icon: "pi pi-list",
         command: () => {
-            router.push('/contact');
-        }
+          router.push("/list_securities");
+        },
+      },
+      {
+        label: "Add Securities",
+        icon: "pi pi-plus-circle",
+        command: () => {
+          router.push("/add_securities");
+        },
+      },
+      {
+        label: "List Dividends",
+        icon: "pi pi-shopping-bag",
+        command: () => {
+          router.push("/list_dividends");
+        },
+      },
+      {
+        label: "Add Dividends",
+        icon: "pi pi-plus",
+        command: () => {
+          router.push("/add_dividends");
+        },
+      },
+    ],
+  },
+  {
+    label: "About",
+    icon: "pi pi-link",
+    command: () => {
+      router.push("/about");
     },
+  },
+  {
+    label: "Contact",
+    icon: "pi pi-envelope",
+    command: () => {
+      router.push("/contact");
+    },
+  },
 
-    {
-        label: 'Login',
-	icon: 'pi pi-user',
-        command: () => {
-            router.push('/login');
-        }
-    },            
-
-])
-
-
-
-
-
+  {
+    label: "Login",
+    icon: "pi pi-user",
+    command: () => {
+      router.push("/login");
+    },
+  },
+]);
 
 const search = (event) => {
-    xitems.value = [...Array(10).keys()].map((item) => event.query + '-' + item);
-}
-;
-
+  xitems.value = [...Array(10).keys()].map((item) => event.query + "-" + item);
+};
 const value = ref(null);
 const xitems = ref([]);
 
-
 //const ButtonComponent = inject('a2d')
 
-
-
-function  handle_search() {
-
-  console.log("xxxxxxX");
+function handle_search() {
+  //console.log("xxxxxxX");
 }
 
-function  handle_a2d() {
-
+function handle_a2d() {
   console.log("...add to desktop");
 }
-
-
-
-
 </script>
 
-
-
-
-
-
 <template>
-<Menubar :model="items" >
-
-  
- <template #start>
-   <a href="/"><img alt="logo" src="/img/logo.png" height="40" /></a>
-
- </template>
-
-
-  
-    <template  #item="{ item, props, hasSubmenu }">
-        <router-link v-if="item.route" v-slot="{ href, navigate }" :to="item.route" custom>
-            <a v-ripple :href="href" v-bind="props.action" @click="navigate">
-                <span :class="item.icon" />
-                <span>{{ item.label }}</span>
-            </a>
-        </router-link>
-        <a v-else v-ripple :href="item.url" :target="item.target" v-bind="props.action">
-            <span :class="item.icon" />
-            <span>{{ item.label }}</span>
-            <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down" />
-        </a>
-
+  <Menubar :model="items">
+    <template #start>
+      <a href="/"><img alt="logo" src="/img/logo.png" height="40" /></a>
     </template>
 
-
+    <template #item="{ item, props, hasSubmenu }">
+      <router-link
+        v-if="item.route"
+        v-slot="{ href, navigate }"
+        :to="item.route"
+        custom
+      >
+        <a v-ripple :href="href" v-bind="props.action" @click="navigate">
+          <span :class="item.icon" />
+          <span>{{ item.label }}</span>
+        </a>
+      </router-link>
+      <a
+        v-else
+        v-ripple
+        :href="item.url"
+        :target="item.target"
+        v-bind="props.action"
+      >
+        <span :class="item.icon" />
+        <span>{{ item.label }}</span>
+        <span v-if="hasSubmenu" class="pi pi-fw pi-angle-down" />
+      </a>
+    </template>
 
     <template #end>
-    <div class="search-container" >
-    <Add2Desktop />	   
+      <div class="search-container">
+        <Add2Desktop />
 
-    <AutoComplete 
-      v-model="value" 
-      :suggestions="xitems" 
-      @complete="search"
-      placeholder="Search..."
-      class="search-input"
-    />
-    <Button 
-      icon="pi pi-search"
-      severity="primary"
-      size="small"
-      @click="handle_search"
-    />
-    </div>
-
-      
-      
+        <AutoComplete
+          v-model="value"
+          :suggestions="xitems"
+          @complete="search"
+          placeholder="Search..."
+          class="search-input"
+        />
+        <Button
+          icon="pi pi-search"
+          severity="primary"
+          size="small"
+          @click="handle_search"
+        />
+      </div>
     </template>
-
-    
-</Menubar>
-
-
-
+  </Menubar>
 </template>
 
-
-
 <style scoped>
-  
-  
-  .search-container {
-
+.search-container {
   display: flex;
   gap: 0.5rem;
   align-items: center;
   width: 100%;
   max-width: 400px;
+  padding-right: 15px;
 }
 
 .search-input {
