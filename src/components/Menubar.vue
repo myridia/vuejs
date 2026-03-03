@@ -23,6 +23,36 @@ const items = ref([
     command: () => {
       router.push("/securities");
     },
+    items: [
+      {
+        label: "List Securities",
+        icon: "pi pi-list",
+        command: () => {
+          router.push("/list_securities");
+        },
+      },
+      {
+        label: "Add Securities",
+        icon: "pi pi-plus-circle",
+        command: () => {
+          router.push("/add_securities");
+        },
+      },
+      {
+        label: "List Dividends",
+        icon: "pi pi-shopping-bag",
+        command: () => {
+          router.push("/list_dividends");
+        },
+      },
+      {
+        label: "Add Dividends",
+        icon: "pi pi-plus",
+        command: () => {
+          router.push("/add_dividends");
+        },
+      },
+    ],
   },
   {
     label: "About",
@@ -57,7 +87,7 @@ const xitems = ref([]);
 //const ButtonComponent = inject('a2d')
 
 function handle_search() {
-  console.log("xxxxxxX");
+  //console.log("xxxxxxX");
 }
 
 function handle_a2d() {
