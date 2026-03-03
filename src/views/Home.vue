@@ -7,7 +7,6 @@ const items = ref([]);
 
 <template>
   <Breadcrumb :items="items" />
-  <Db />
 </template>
 
 <style></style>

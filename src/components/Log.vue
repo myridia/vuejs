@@ -3,22 +3,23 @@ import Textarea from "primevue/textarea";
 import IftaLabel from "primevue/iftalabel";
 import { ref, onMounted, inject } from "vue";
 const logger = ref([]);
-logger.value = "xxxxx";
+//logger.value = "xxxxx";
 </script>
 <template>
-  <IftaLabel>
-    <Textarea
-      id="logger"
-      v-model="logger"
-      rows="10"
-      cols="100"
-      style="resize: none"
-    />
-    <label for="logger">Logger:</label>
-  </IftaLabel>
+  <div class="wrapper_logger">
+    <IftaLabel>
+      <Textarea id="logger" v-model="logger" />
+      <label for="logger">Logger:</label>
+    </IftaLabel>
+  </div>
 </template>
 
 <style scoped>
-#logger {
+.wrapper_logger {
+}
+
+.wrapper_logger textarea {
+  width: 100%;
+  min-height: 300px;
 }
 </style>
