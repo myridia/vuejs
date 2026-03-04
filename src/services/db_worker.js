@@ -33,18 +33,37 @@ const init = async () => {
  Insert Row Security
 **************************************************************************************/
 const insert_row = async (name, code, qty) => {
-  console.log(name);
-  console.log(code);
-  console.log(qty);
-
+  /*
   const f = await db.exec({
     sql: "INSERT INTO securities(name, code, qty) VALUES (?, ?,?) RETURNING *",
     bind: [name, code, qty],
     returnValue: "resultRows",
     rowMode: "object",
   });
-  console.log(f[0]);
+  //console.log(f);
   return f[0];
+  */
+  return "";
+};
+
+/*************************************************************************************
+ Delete Securities
+**************************************************************************************/
+const delete_rows = async (table) => {
+  const f = await db.exec({
+    sql: "DELETE FROM " + table,
+    returnValue: "resultRows",
+    rowMode: "object",
+  });
+
+  const f2 = await db.exec({
+    sql: "DELETE FROM sqlite_sequence WHERE name = '" + table + "'",
+    returnValue: "resultRows",
+    rowMode: "object",
+  });
+
+  //console.log(f);
+  return "rows_deleted";
 };
 
 /*************************************************************************************
@@ -73,6 +92,11 @@ self.onmessage = async (evento) => {
     case "insert_row":
       const msg = await insert_row(message.name, message.code, message.qty);
       self.postMessage([id, msg]);
+      break;
+
+    case "delete_rows":
+      const msg2 = await delete_rows(message);
+      self.postMessage([id, msg2]);
       break;
     case "get_rows":
       const rows = await get_rows();

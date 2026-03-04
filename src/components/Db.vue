@@ -5,6 +5,8 @@ import IftaLabel from "primevue/iftalabel";
 import { ref, onMounted, inject } from "vue";
 import FileUpload from "primevue/fileupload";
 import { useToast } from "primevue/usetoast";
+import Toast from "primevue/toast";
+import Papa from "papaparse";
 
 const log = inject("logService");
 const worker = inject("Worker");
@@ -21,25 +23,40 @@ onMounted(async () => {
   let msg = await Workers.post_message(worker, "init", "my message");
 });
 
-const upload = () => {
-  console.log("uuuuuuuuuu");
+const upload = (event) => {
   toast.add({
     severity: "info",
     summary: "Info",
     detail: "Message Content",
-    life: 30000,
+    life: 5000,
   });
-  fileupload.value.upload();
-};
+  //  fileupload.value.upload();
 
-const onUpload = () => {
-  console.log("upload");
-  toast.add({
-    severity: "info",
-    summary: "Success",
-    detail: "File Uploaded",
-    life: 3000,
-  });
+  const file = event.files[0];
+  const file_name = event.files[0].name;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    //console.log("...ok");
+    const file_content = e.target.result;
+    const d = Papa.parse(file_content).data;
+    for (let i in d) {
+      if (d[i].length === 3) {
+        //console.log(d[i]);
+        name.value = d[i][0];
+        code.value = d[i][1];
+        qty.value = d[i][2];
+        //insert_row();
+      }
+      //break;
+    }
+    //console.log(data);
+  };
+  reader.onerror = (error) => {
+    console.log("...error");
+    console.log(error);
+  };
+
+  reader.readAsText(file);
 };
 
 const insert_row = async () => {
@@ -50,7 +67,12 @@ const insert_row = async () => {
       code: code.value,
       qty: parseFloat(qty.value),
     });
+    log.info(msg);
   }
+};
+
+const delete_rows = async () => {
+  let msg = await Workers.post_message(worker, "delete_rows", "securities");
   log.info(msg);
 };
 </script>
@@ -70,7 +92,13 @@ const insert_row = async () => {
     <InputText id="qty" v-model="qty" />
     <label for="qty">qty</label>
   </IftaLabel>
-  <Button label="Insert Row" @click="insert_row" class="insert_row" /><br />
+  <Button
+    label="Insert Row"
+    @click="insert_row"
+    class="insert_row"
+  /><br /><br />
+
+  <Button label="Delete Rows" @click="delete_rows" class="delete_rows" /><br />
 
   <br />
   <Toast />
@@ -83,9 +111,8 @@ const insert_row = async () => {
       :maxFileSize="1000000"
       :auto="false"
       :multiple="false"
-      @upload="onUpload"
+      @select="upload"
     />
-    <Button label="Upload" @click="upload" severity="secondary" />
   </div>
 </template>
 
