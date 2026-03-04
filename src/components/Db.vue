@@ -3,24 +3,44 @@ import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import IftaLabel from "primevue/iftalabel";
 import { ref, onMounted, inject } from "vue";
-const items = ref([]);
+import FileUpload from "primevue/fileupload";
+import { useToast } from "primevue/usetoast";
 
-//const log = inject('log');
 const log = inject("logService");
 const worker = inject("Worker");
 const Workers = inject("Workers");
 
-onMounted(() => {});
-
-const init_sqlite3 = async () => {
-  log.info("...init_sqlite3");
-  let msg = await Workers.post_message(worker, "init", "my message");
-  log.info(msg);
-};
-
+const toast = useToast();
+const fileupload = ref();
+const items = ref([]);
 const name = ref("");
 const code = ref("");
 const qty = ref("");
+
+onMounted(async () => {
+  let msg = await Workers.post_message(worker, "init", "my message");
+});
+
+const upload = () => {
+  console.log("uuuuuuuuuu");
+  toast.add({
+    severity: "info",
+    summary: "Info",
+    detail: "Message Content",
+    life: 30000,
+  });
+  fileupload.value.upload();
+};
+
+const onUpload = () => {
+  console.log("upload");
+  toast.add({
+    severity: "info",
+    summary: "Success",
+    detail: "File Uploaded",
+    life: 3000,
+  });
+};
 
 const insert_row = async () => {
   if (name.value != "" && code.value != "" && parseFloat(qty.value)) {
@@ -33,19 +53,9 @@ const insert_row = async () => {
   }
   log.info(msg);
 };
-
-const list_rows = async () => {
-  log.info("...list rows");
-  console.log("aaaaaa");
-  let msg = await Workers.post_message(worker, "list_rows");
-  console.log(msg);
-  console.log("zzzzzzzzzzzz");
-};
 </script>
 
 <template>
-  <Button label="Init Sqlite3" @click="init_sqlite3" class="db_sqlite3" /><br />
-
   <IftaLabel>
     <InputText id="name" v-model="name" />
     <label for="name">Name</label>
@@ -62,7 +72,21 @@ const list_rows = async () => {
   </IftaLabel>
   <Button label="Insert Row" @click="insert_row" class="insert_row" /><br />
 
-  <Button label="List Rowss" @click="list_rows" class="list_rows" /><br />
+  <br />
+  <Toast />
+  <div class="card flex flex-wrap gap-6 items-center justify-between">
+    <FileUpload
+      ref="fileupload"
+      mode="basic"
+      name="myfiles"
+      accept="text/csv"
+      :maxFileSize="1000000"
+      :auto="false"
+      :multiple="false"
+      @upload="onUpload"
+    />
+    <Button label="Upload" @click="upload" severity="secondary" />
+  </div>
 </template>
 
 <style>
