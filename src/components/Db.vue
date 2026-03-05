@@ -35,20 +35,28 @@ const upload = (event) => {
   const file = event.files[0];
   const file_name = event.files[0].name;
   const reader = new FileReader();
-  reader.onload = (e) => {
-    //console.log("...ok");
+  reader.onload = async (e) => {
+    let rows = [];
+    console.log("...ok");
     const file_content = e.target.result;
     const d = Papa.parse(file_content).data;
     for (let i in d) {
       if (d[i].length === 3) {
         //console.log(d[i]);
-        name.value = d[i][0];
-        code.value = d[i][1];
-        qty.value = d[i][2];
-        //insert_row();
+        const name = d[i][0];
+        const code = d[i][1];
+        let qty = d[i][2].replace(".","");
+        qty = qty.replace(",",".");
+	const row = { name : name
+		    ,code:code
+		    ,qty:qty};
+	rows.push(row);
+        //console.log(qty);	
+
       }
-      //break;
+
     }
+    await insert_rows(rows);    
     //console.log(data);
   };
   reader.onerror = (error) => {
@@ -59,15 +67,21 @@ const upload = (event) => {
   reader.readAsText(file);
 };
 
+const insert_rows = async (rows) => {
+    let msg = await Workers.post_message(worker, "insert_rows", rows);
+}
+
+
 const insert_row = async () => {
+
   if (name.value != "" && code.value != "" && parseFloat(qty.value)) {
-    log.info("...insert_security");
+    //console.log("...insert_row");    
     let msg = await Workers.post_message(worker, "insert_row", {
       name: name.value,
       code: code.value,
       qty: parseFloat(qty.value),
     });
-    log.info(msg);
+    //console.log(msg);
   }
 };
 

@@ -33,17 +33,30 @@ const init = async () => {
  Insert Row Security
 **************************************************************************************/
 const insert_row = async (name, code, qty) => {
-  /*
   const f = await db.exec({
     sql: "INSERT INTO securities(name, code, qty) VALUES (?, ?,?) RETURNING *",
     bind: [name, code, qty],
     returnValue: "resultRows",
     rowMode: "object",
   });
-  //console.log(f);
   return f[0];
-  */
-  return "";
+};
+
+/*************************************************************************************
+ Insert Row Security
+**************************************************************************************/
+const insert_rows = async (rows) => {
+  await db.exec("BEGIN TRANSACTION");
+  const stmt = db.prepare(
+    "INSERT INTO securities(name, code, qty) VALUES (?, ?, ?)",
+  );
+  for (const i of rows) {
+    stmt.bind([i.name, i.code, i.qty]);
+    stmt.step();
+    stmt.reset();
+  }
+  await db.exec("COMMIT");
+  //stmt.free();
 };
 
 /*************************************************************************************
@@ -92,6 +105,11 @@ self.onmessage = async (evento) => {
     case "insert_row":
       const msg = await insert_row(message.name, message.code, message.qty);
       self.postMessage([id, msg]);
+      break;
+
+    case "insert_rows":
+      const msg3 = await insert_rows(message);
+      self.postMessage([id, msg3]);
       break;
 
     case "delete_rows":
