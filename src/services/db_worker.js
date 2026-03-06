@@ -90,6 +90,23 @@ const get_rows = async () => {
   });
 };
 
+/*************************************************************************************
+ Get Names
+**************************************************************************************/
+const get_names = async () => {
+  let data = [];
+  const d = await db.exec({
+    sql: "SELECT id, name, code, qty FROM securities ORDER BY id desc",
+    returnValue: "resultRows",
+    rowMode: "array",
+  });
+  for (let i in d) {
+    data.push(d[i][1]);
+    data.push(d[i][2]);
+  }
+  return data;
+};
+
 self.onmessage = async (evento) => {
   const id = evento.data[0];
   const message = evento.data[1];
@@ -119,6 +136,12 @@ self.onmessage = async (evento) => {
     case "get_rows":
       const rows = await get_rows();
       self.postMessage([id, rows]);
+      break;
+
+    case "get_names":
+      await init();
+      const names = await get_names();
+      self.postMessage([id, names]);
       break;
   }
 };

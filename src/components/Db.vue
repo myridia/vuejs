@@ -45,18 +45,14 @@ const upload = (event) => {
         //console.log(d[i]);
         const name = d[i][0];
         const code = d[i][1];
-        let qty = d[i][2].replace(".","");
-        qty = qty.replace(",",".");
-	const row = { name : name
-		    ,code:code
-		    ,qty:qty};
-	rows.push(row);
-        //console.log(qty);	
-
+        let qty = d[i][2].replace(".", "");
+        qty = qty.replace(",", ".");
+        const row = { name: name, code: code, qty: qty };
+        rows.push(row);
+        //console.log(qty);
       }
-
     }
-    await insert_rows(rows);    
+    await insert_rows(rows);
     //console.log(data);
   };
   reader.onerror = (error) => {
@@ -68,14 +64,12 @@ const upload = (event) => {
 };
 
 const insert_rows = async (rows) => {
-    let msg = await Workers.post_message(worker, "insert_rows", rows);
-}
-
+  let msg = await Workers.post_message(worker, "insert_rows", rows);
+};
 
 const insert_row = async () => {
-
   if (name.value != "" && code.value != "" && parseFloat(qty.value)) {
-    //console.log("...insert_row");    
+    //console.log("...insert_row");
     let msg = await Workers.post_message(worker, "insert_row", {
       name: name.value,
       code: code.value,
