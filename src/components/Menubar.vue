@@ -36,17 +36,17 @@ const items = ref([
         },
       },
       {
-        label: "Add Securities",
+        label: "Edit Securities",
         icon: "pi pi-plus-circle",
         command: () => {
-          router.push("/add_securities");
+          router.push("/edit_securities");
         },
       },
       {
-        label: "List Dividends",
+        label: "Edit Dividends",
         icon: "pi pi-shopping-bag",
         command: () => {
-          router.push("/list_dividends");
+          router.push("/edit_dividends");
         },
       },
       {
