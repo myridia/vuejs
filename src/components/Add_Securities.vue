@@ -7,6 +7,7 @@ import FileUpload from "primevue/fileupload";
 import { useToast } from "primevue/usetoast";
 import Toast from "primevue/toast";
 import Papa from "papaparse";
+import { useRouter } from "vue-router";
 
 const log = inject("logService");
 const worker = inject("Worker");
@@ -18,6 +19,8 @@ const items = ref([]);
 const name = ref("");
 const code = ref("");
 const qty = ref("");
+
+const router = useRouter();
 
 onMounted(async () => {
   let msg = await Workers.post_message(worker, "init", "my message");
@@ -53,6 +56,7 @@ const upload = (event) => {
       }
     }
     await insert_rows(rows);
+    router.push("/securities");
     //console.log(data);
   };
   reader.onerror = (error) => {
@@ -78,35 +82,31 @@ const insert_row = async () => {
     //console.log(msg);
   }
 };
-
-const delete_rows = async () => {
-  let msg = await Workers.post_message(worker, "delete_rows", "securities");
-  log.info(msg);
-};
 </script>
 
 <template>
-  <IftaLabel>
-    <InputText id="name" v-model="name" />
-    <label for="name">Name</label>
-  </IftaLabel>
+  <div class="flex-container">
+    <IftaLabel class="c c1">
+      <InputText id="code" v-model="code" />
+      <label for="code">Code</label>
+    </IftaLabel>
 
-  <IftaLabel>
-    <InputText id="code" v-model="code" />
-    <label for="code">Code</label>
-  </IftaLabel>
+    <IftaLabel class="c c2">
+      <InputText id="name" v-model="name" />
+      <label for="name">Name</label>
+    </IftaLabel>
 
-  <IftaLabel>
-    <InputText id="qty" v-model="qty" />
-    <label for="qty">qty</label>
-  </IftaLabel>
-  <Button
-    label="Insert Row"
-    @click="insert_row"
-    class="insert_row"
-  /><br /><br />
+    <IftaLabel class="c c3">
+      <InputText id="qty" v-model="qty" />
+      <label for="qty">qty</label>
+    </IftaLabel>
 
-  <Button label="Delete Rows" @click="delete_rows" class="delete_rows" /><br />
+    <Button
+      label="Insert Row"
+      @click="insert_row"
+      class="insert_row c c4"
+    /><br /><br />
+  </div>
 
   <br />
   <Toast />
@@ -124,8 +124,30 @@ const delete_rows = async () => {
   </div>
 </template>
 
-<style>
-.a2d {
-  white-space: nowrap;
+<style scoped>
+.flex-container {
+  display: flex;
+  width: 100%;
+}
+
+c {
+  padding: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+.c1 {
+  flex: 1;
+}
+
+.c2 {
+  flex: 1;
+}
+
+.c3 {
+  flex: 1;
+}
+.c4 {
+  flex: 1;
 }
 </style>

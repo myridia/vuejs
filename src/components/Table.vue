@@ -25,6 +25,12 @@ onMounted(async () => {
   let msg = await Workers.post_message(worker, "init", "my message");
   data.value = await Workers.post_message(worker, "get_rows");
 });
+
+const delete_rows = async () => {
+  let msg = await Workers.post_message(worker, "delete_rows", "securities");
+  log.info(msg);
+  data.value = await Workers.post_message(worker, "get_rows");
+};
 </script>
 <template>
   <div class="card">
@@ -51,6 +57,11 @@ onMounted(async () => {
       <Column field="qty" sortable header="Qty" style="width: 10%"></Column>
       <Column field="div" sortable header="Div" style="width: 10%"></Column>
     </DataTable>
+    <Button
+      label="Delete Rows"
+      @click="delete_rows"
+      class="delete_rows"
+    /><br />
   </div>
 </template>
 
