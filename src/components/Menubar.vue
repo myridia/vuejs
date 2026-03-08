@@ -29,29 +29,24 @@ const items = ref([
     },
     items: [
       {
-        label: "List Securities",
+        label: "Add Securities",
         icon: "pi pi-list",
         command: () => {
-          router.push("/list_securities");
+          router.push("/add_securities");
         },
       },
-      {
-        label: "Edit Securities",
-        icon: "pi pi-plus-circle",
-        command: () => {
-          router.push("/edit_securities");
-        },
-      },
-      {
-        label: "Edit Dividends",
-        icon: "pi pi-shopping-bag",
-        command: () => {
-          router.push("/edit_dividends");
-        },
-      },
+    ],
+  },
+  {
+    label: "Dividends",
+    icon: "pi pi-building-columns",
+    command: () => {
+      router.push("/dividends");
+    },
+    items: [
       {
         label: "Add Dividends",
-        icon: "pi pi-plus",
+        icon: "pi pi-list",
         command: () => {
           router.push("/add_dividends");
         },
