@@ -1,4 +1,4 @@
-import { Log2textarea } from "log2textarea/dist/log2textarea.js";
+import { Log2textarea } from "log2textarea/dist/log2textarea.esm.js";
 import { onMounted, ref } from "vue";
 
 export default {
@@ -15,12 +15,7 @@ export default {
 
       initialize() {
         if (!log.value) {
-          log.value = new Log2textarea(
-            "logger",
-            "App init successfully.",
-            true,
-            true,
-          );
+          log.value = new Log2textarea("logger", "...app init", false, true);
         }
       },
     };

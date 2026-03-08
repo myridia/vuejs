@@ -31,6 +31,7 @@ onMounted(async () => {
     <DataTable
       :value="data"
       ref="dt"
+      class="p-datatable-sm p-datatable-gridlines p-datatable-striped"
       responsiveLayout="scroll"
       resizableColumns
     >

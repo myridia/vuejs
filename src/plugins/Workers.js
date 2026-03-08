@@ -1,6 +1,6 @@
 // services/ProductService.js
 import { inject, ref } from "vue";
-import { Log2textarea } from "log2textarea/dist/log2textarea.js";
+import { Log2textarea } from "log2textarea/dist/log2textarea.esm.js";
 export default {
   install: (app, options) => {
     const log = ref(null);
@@ -16,8 +16,8 @@ export default {
               //log.info(argumentos);
               break;
             case "init":
-              log.value.info("...init");
-              log.value.info(message);
+              //log.value.info("...init");
+              //log.value.info(message);
               //[$nombre, $fechaNacimiento, $insertar, $obtener].forEach(
               //  (elemento) => (elemento.disabled = false),
               //);
@@ -66,7 +66,7 @@ export default {
 
       initialize() {
         if (!log.value) {
-          log.value = new Log2textarea("logger", "App init successfully.");
+          log.value = new Log2textarea("logger", "...worker init", false, true);
         }
       },
     };
