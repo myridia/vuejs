@@ -4,6 +4,7 @@ import InputText from "primevue/inputtext";
 import IftaLabel from "primevue/iftalabel";
 import { ref, onMounted, inject } from "vue";
 import FileUpload from "primevue/fileupload";
+import Fieldset from "primevue/fieldset";
 import { useToast } from "primevue/usetoast";
 import Toast from "primevue/toast";
 import Papa from "papaparse";
@@ -85,43 +86,46 @@ const insert_row = async () => {
 </script>
 
 <template>
-  <div class="flex-container">
-    <IftaLabel class="c c1">
-      <InputText id="code" v-model="code" />
-      <label for="code">Code</label>
-    </IftaLabel>
+  <Fieldset legend="Add a Security">
+    <div class="flex-container">
+      <IftaLabel class="c c1">
+        <InputText id="code" v-model="code" />
+        <label for="code">Code</label>
+      </IftaLabel>
 
-    <IftaLabel class="c c2">
-      <InputText id="name" v-model="name" />
-      <label for="name">Name</label>
-    </IftaLabel>
+      <IftaLabel class="c c2">
+        <InputText id="name" v-model="name" />
+        <label for="name">Name</label>
+      </IftaLabel>
 
-    <IftaLabel class="c c3">
-      <InputText id="qty" v-model="qty" />
-      <label for="qty">qty</label>
-    </IftaLabel>
+      <IftaLabel class="c c3">
+        <InputText id="qty" v-model="qty" />
+        <label for="qty">qty</label>
+      </IftaLabel>
 
-    <Button
-      label="Insert Row"
-      @click="insert_row"
-      class="insert_row c c4"
-    /><br /><br />
-  </div>
-
+      <Button
+        label="Insert Row"
+        @click="insert_row"
+        class="insert_row c c4"
+      /><br /><br />
+    </div>
+  </Fieldset>
   <br />
   <Toast />
-  <div class="card flex flex-wrap gap-6 items-center justify-between">
-    <FileUpload
-      ref="fileupload"
-      mode="basic"
-      name="myfiles"
-      accept="text/csv"
-      :maxFileSize="1000000"
-      :auto="false"
-      :multiple="false"
-      @select="upload"
-    />
-  </div>
+  <Fieldset legend="Upload a CSV with Securities">
+    <div class="card flex flex-wrap gap-6 items-center justify-between">
+      <FileUpload
+        ref="fileupload"
+        mode="basic"
+        name="myfiles"
+        accept="text/csv"
+        :maxFileSize="1000000"
+        :auto="false"
+        :multiple="false"
+        @select="upload"
+      />
+    </div>
+  </Fieldset>
 </template>
 
 <style scoped>

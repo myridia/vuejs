@@ -45,7 +45,7 @@ const delete_rows = async () => {
         <div class="text-end pb-4">
           <Button
             icon="pi pi-external-link"
-            label="Export"
+            label="Export CSV"
             @click="exportCSV($event)"
           />
         </div>
