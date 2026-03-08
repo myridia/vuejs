@@ -46,9 +46,10 @@ onMounted(async () => {
       </template>
 
       <Column field="id" sortable header="ID" style="width: 5%"></Column>
-      <Column field="name" sortable header="Name"></Column>
-      <Column field="code" sortable header="Code" style="width: 25%"></Column>
-      <Column field="qty" sortable header="Qty" style="width: 20%"></Column>
+      <Column field="code" sortable header="Code" style="width: 15%"></Column>
+      <Column field="name" sortable header="Name" style="width: 60%"></Column>
+      <Column field="qty" sortable header="Qty" style="width: 10%"></Column>
+      <Column field="div" sortable header="Div" style="width: 10%"></Column>
     </DataTable>
   </div>
 </template>

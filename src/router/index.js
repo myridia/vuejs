@@ -4,10 +4,7 @@ import About from "../views/About.vue";
 import Contact from "../views/Contact.vue";
 import Login from "../views/Login.vue";
 import Securities from "../views/Securities.vue";
-import List_securities from "../views/List_securities.vue";
-import Add_securities from "../views/Edit_securities.vue";
-import Add_dividends from "../views/Edit_dividends.vue";
-import List_dividends from "../views/List_dividends.vue";
+import Add_securities from "../views/Add_securities.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,6 +14,13 @@ const router = createRouter({
       name: "home",
       component: Home,
     },
+
+    {
+      path: "/about",
+      name: "about",
+      component: About,
+    },
+
     {
       path: "/securities",
       name: "Securities",
@@ -24,33 +28,9 @@ const router = createRouter({
     },
 
     {
-      path: "/list_securities",
-      name: "List Securities",
-      component: List_securities,
-    },
-
-    {
-      path: "/edit_securities",
-      name: "Edit Securities",
+      path: "/add_securities",
+      name: "Add Securities",
       component: Add_securities,
-    },
-
-    {
-      path: "/edit_dividends",
-      name: "Edit Dividends",
-      component: List_dividends,
-    },
-
-    {
-      path: "/add_dividends",
-      name: "Add Dividends",
-      component: Add_dividends,
-    },
-
-    {
-      path: "/about",
-      name: "about",
-      component: About,
     },
 
     {
