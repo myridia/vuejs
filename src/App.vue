@@ -27,8 +27,9 @@ onMounted(() => {
     </main>
 
     <footer>
+      <Log />
+
       <div class="footer-content">
-        <Log />
         <p>&copy; 2026 Vue Starter App</p>
       </div>
     </footer>

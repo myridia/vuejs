@@ -15,7 +15,12 @@ export default {
 
       initialize() {
         if (!log.value) {
-          log.value = new Log2textarea("logger", "App init successfully.");
+          log.value = new Log2textarea(
+            "logger",
+            "App init successfully.",
+            true,
+            true,
+          );
         }
       },
     };

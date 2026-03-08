@@ -1,14 +1,18 @@
 <script setup>
+/*
+  https://primevue.org/icons/#download
+*/
+
 import Menubar from "primevue/menubar";
 import Add2Desktop from "../components/Add2Desktop.vue";
-import { ref } from "vue";
-import { inject } from "vue";
+import { ref, inject, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import InputText from "primevue/inputtext";
 import Button from "primevue/button";
 import "primeicons/primeicons.css";
 const router = useRouter();
 import AutoComplete from "primevue/autocomplete";
+
 const items = ref([
   {
     label: "Home",
@@ -32,17 +36,17 @@ const items = ref([
         },
       },
       {
-        label: "Add Securities",
+        label: "Edit Securities",
         icon: "pi pi-plus-circle",
         command: () => {
-          router.push("/add_securities");
+          router.push("/edit_securities");
         },
       },
       {
-        label: "List Dividends",
+        label: "Edit Dividends",
         icon: "pi pi-shopping-bag",
         command: () => {
-          router.push("/list_dividends");
+          router.push("/edit_dividends");
         },
       },
       {
@@ -53,6 +57,13 @@ const items = ref([
         },
       },
     ],
+  },
+  {
+    label: "Settings",
+    icon: "pi pi-cog",
+    command: () => {
+      router.push("/login");
+    },
   },
   {
     label: "About",
@@ -68,19 +79,32 @@ const items = ref([
       router.push("/contact");
     },
   },
-
-  {
-    label: "Login",
-    icon: "pi pi-user",
-    command: () => {
-      router.push("/login");
-    },
-  },
 ]);
 
+const log = inject("logService");
+const worker = inject("Worker");
+const Workers = inject("Workers");
+
+const names = ref([]);
+const filter = ref();
+
+onMounted(async () => {
+  names.value = await Workers.post_message(worker, "get_names");
+});
+
 const search = (event) => {
-  xitems.value = [...Array(10).keys()].map((item) => event.query + "-" + item);
+  setTimeout(() => {
+    if (!event.query.trim().length) {
+      filter.value = [...Names.value];
+    } else {
+      filter.value = names.value.filter((name) => {
+        const x = name.toLowerCase().startsWith(event.query.toLowerCase());
+        return x;
+      });
+    }
+  }, 250);
 };
+
 const value = ref(null);
 const xitems = ref([]);
 
@@ -132,7 +156,7 @@ function handle_a2d() {
 
         <AutoComplete
           v-model="value"
-          :suggestions="xitems"
+          :suggestions="filter"
           @complete="search"
           placeholder="Search..."
           class="search-input"

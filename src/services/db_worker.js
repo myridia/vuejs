@@ -33,18 +33,50 @@ const init = async () => {
  Insert Row Security
 **************************************************************************************/
 const insert_row = async (name, code, qty) => {
-  console.log(name);
-  console.log(code);
-  console.log(qty);
-
   const f = await db.exec({
     sql: "INSERT INTO securities(name, code, qty) VALUES (?, ?,?) RETURNING *",
     bind: [name, code, qty],
     returnValue: "resultRows",
     rowMode: "object",
   });
-  console.log(f[0]);
   return f[0];
+};
+
+/*************************************************************************************
+ Insert Row Security
+**************************************************************************************/
+const insert_rows = async (rows) => {
+  await db.exec("BEGIN TRANSACTION");
+  const stmt = db.prepare(
+    "INSERT INTO securities(name, code, qty) VALUES (?, ?, ?)",
+  );
+  for (const i of rows) {
+    stmt.bind([i.name, i.code, i.qty]);
+    stmt.step();
+    stmt.reset();
+  }
+  await db.exec("COMMIT");
+  //stmt.free();
+};
+
+/*************************************************************************************
+ Delete Securities
+**************************************************************************************/
+const delete_rows = async (table) => {
+  const f = await db.exec({
+    sql: "DELETE FROM " + table,
+    returnValue: "resultRows",
+    rowMode: "object",
+  });
+
+  const f2 = await db.exec({
+    sql: "DELETE FROM sqlite_sequence WHERE name = '" + table + "'",
+    returnValue: "resultRows",
+    rowMode: "object",
+  });
+
+  //console.log(f);
+  return "rows_deleted";
 };
 
 /*************************************************************************************
@@ -56,6 +88,23 @@ const get_rows = async () => {
     returnValue: "resultRows",
     rowMode: "object",
   });
+};
+
+/*************************************************************************************
+ Get Names
+**************************************************************************************/
+const get_names = async () => {
+  let data = [];
+  const d = await db.exec({
+    sql: "SELECT id, name, code, qty FROM securities ORDER BY id desc",
+    returnValue: "resultRows",
+    rowMode: "array",
+  });
+  for (let i in d) {
+    data.push(d[i][1]);
+    data.push(d[i][2]);
+  }
+  return data;
 };
 
 self.onmessage = async (evento) => {
@@ -74,9 +123,25 @@ self.onmessage = async (evento) => {
       const msg = await insert_row(message.name, message.code, message.qty);
       self.postMessage([id, msg]);
       break;
+
+    case "insert_rows":
+      const msg3 = await insert_rows(message);
+      self.postMessage([id, msg3]);
+      break;
+
+    case "delete_rows":
+      const msg2 = await delete_rows(message);
+      self.postMessage([id, msg2]);
+      break;
     case "get_rows":
       const rows = await get_rows();
       self.postMessage([id, rows]);
+      break;
+
+    case "get_names":
+      await init();
+      const names = await get_names();
+      self.postMessage([id, names]);
       break;
   }
 };

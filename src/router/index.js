@@ -5,8 +5,8 @@ import Contact from "../views/Contact.vue";
 import Login from "../views/Login.vue";
 import Securities from "../views/Securities.vue";
 import List_securities from "../views/List_securities.vue";
-import Add_securities from "../views/Add_securities.vue";
-import Add_dividends from "../views/Add_dividends.vue";
+import Add_securities from "../views/Edit_securities.vue";
+import Add_dividends from "../views/Edit_dividends.vue";
 import List_dividends from "../views/List_dividends.vue";
 
 const router = createRouter({
@@ -30,14 +30,14 @@ const router = createRouter({
     },
 
     {
-      path: "/add_securities",
-      name: "Add Securities",
+      path: "/edit_securities",
+      name: "Edit Securities",
       component: Add_securities,
     },
 
     {
-      path: "/list_dividends",
-      name: "List Dividends",
+      path: "/edit_dividends",
+      name: "Edit Dividends",
       component: List_dividends,
     },
 

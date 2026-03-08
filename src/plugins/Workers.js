@@ -23,15 +23,14 @@ export default {
               //);
               break;
             case "insert_row":
-              log.value.info("security_insert");
-              lob.value.log(message);
-              //log.info("...persona insertada");
+              log.value.info("...insert row");
+              log.value.info(message);
               break;
 
             case "get_securities":
               const securities = message;
               log.value.info("get_insert");
-              lob.value.log(message);
+              log.value.log(message);
               //$contenedorPersonas.innerHTML = "";
               //for (const persona of personas) {
               //  $contenedorPersonas.innerHTML += `<strong>${persona.nombre}</strong> ${persona.fechaNacimiento}<br>`;

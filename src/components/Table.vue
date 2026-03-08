@@ -31,7 +31,6 @@ onMounted(async () => {
     <DataTable
       :value="data"
       ref="dt"
-      tableStyle="min-width: 50rem"
       responsiveLayout="scroll"
       resizableColumns
     >
