@@ -1,14 +1,17 @@
 <script setup>
+import { ref, onMounted, inject } from "vue";
+import { useRouter } from "vue-router";
 import Button from "primevue/button";
 import InputText from "primevue/inputtext";
 import IftaLabel from "primevue/iftalabel";
-import { ref, onMounted, inject } from "vue";
 import FileUpload from "primevue/fileupload";
 import Fieldset from "primevue/fieldset";
 import { useToast } from "primevue/usetoast";
+import DataTable from "primevue/datatable";
+import Column from "primevue/column";
+import Toolbar from "primevue/toolbar";
 import Toast from "primevue/toast";
 import Papa from "papaparse";
-import { useRouter } from "vue-router";
 
 const log = inject("logService");
 const worker = inject("Worker");
@@ -20,6 +23,8 @@ const items = ref([]);
 const name = ref("");
 const code = ref("");
 const qty = ref("");
+
+const data = ref([]);
 
 const router = useRouter();
 
@@ -47,17 +52,20 @@ const upload = (event) => {
     for (let i in d) {
       if (d[i].length === 3) {
         //console.log(d[i]);
-        const name = d[i][0];
-        const code = d[i][1];
-        let qty = d[i][2].replace(".", "");
-        qty = qty.replace(",", ".");
-        const row = { name: name, code: code, qty: qty };
+        const c1 = d[i][0];
+        const c2 = d[i][1];
+        const c3 = d[i][2];
+        //let c3 = d[i][2].replace(".", "");
+        //c3 = .replace(",", ".");
+        const row = { c1: c1, c2: c2, c3: c3 };
         rows.push(row);
         //console.log(qty);
       }
     }
-    await insert_rows(rows);
-    router.push("/securities");
+    data.value = rows;
+    //console.log(rows);
+    //await insert_rows(rows);
+    //router.push("/securities");
     //console.log(data);
   };
   reader.onerror = (error) => {
@@ -126,6 +134,22 @@ const insert_row = async () => {
       />
     </div>
   </Fieldset>
+
+  <DataTable
+    :value="data"
+    ref="dt"
+    class="p-datatable-sm p-datatable-gridlines p-datatable-striped"
+    responsiveLayout="scroll"
+    resizableColumns
+  >
+    <template #header>
+      <div class="text-end pb-4"></div>
+    </template>
+
+    <Column field="c1" sortable header="Column1" style="width: 33%"></Column>
+    <Column field="c2" sortable header="Column2" style="width: 33%"></Column>
+    <Column field="c3" sortable header="Column3" style="width: 33%"></Column>
+  </DataTable>
 </template>
 
 <style scoped>

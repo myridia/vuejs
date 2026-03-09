@@ -3,7 +3,8 @@ import Breadcrumb from "../components/Breadcrumb.vue";
 import Table from "../components/Table.vue";
 
 import { ref } from "vue";
-const items = ref([{ label: "Securities", route: "securities" }]);
+
+onst items = ref([{ label: "Securities", route: "securities" }]);
 </script>
 
 <template>
