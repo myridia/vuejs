@@ -25,7 +25,7 @@ onMounted(() => {
     <main class="main-content">
       <RouterView />
     </main>
-    <ThemeSwitcher />
+
     <footer>
       <Log />
 
