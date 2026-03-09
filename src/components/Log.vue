@@ -21,5 +21,6 @@ const logger = ref([]);
 .wrapper_logger textarea {
   width: 100%;
   min-height: 300px;
+  color: #aaa;
 }
 </style>
