@@ -38,7 +38,7 @@ jobs:
          tree 
       - name: FTP upload
         run: |
-           lftp -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }}  -e 'set ssl:verify-certificate false;mirror --reverse --delete --verbose=3 --ignore-time  --exclude .git/ --exclude old --exclude logs --parallel=10  --use-pget-n=10  ./dist/ /vuejs/' ${{ secrets.FTP_HOST }}
+           lftp -u ${{ secrets.FTP_USER }},${{ secrets.FTP_PASS }}  -e 'set ssl:verify-certificate false;mirror --reverse --delete --verbose=3 --exclude .git/ --exclude old --exclude logs --parallel=10  --use-pget-n=10  ./dist/ /vuejs/' ${{ secrets.FTP_HOST }}
 
 
       
