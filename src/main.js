@@ -1,3 +1,5 @@
+//https://primevue.org/datatable/
+
 import "./assets/main.css";
 import { createApp, ref, onMounted, inject } from "vue";
 import App from "./App.vue";
@@ -20,6 +22,7 @@ import Row from "primevue/row";
 import Toolbar from "primevue/toolbar";
 import Menubar from "primevue/menubar";
 import InputText from "primevue/inputtext";
+import Select from "primevue/select";
 import IftaLabel from "primevue/iftalabel";
 import FileUpload from "primevue/fileupload";
 import Fieldset from "primevue/fieldset";
@@ -46,6 +49,7 @@ const app = createApp(App)
   .component("Toolbar", Toolbar)
   .component("Menubar", Menubar)
   .component("InputText", InputText)
+  .component("Select", Select)
   .component("Add2Desktop", Add2Desktop)
   .component("FileUpload", FileUpload)
   .component("Fieldset", Fieldset)

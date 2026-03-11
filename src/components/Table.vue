@@ -18,6 +18,15 @@ const name = ref("");
 const code = ref("");
 const qty = ref("");
 
+const selected_city = ref();
+const cities = ref([
+  { name: "New York", code: "NY" },
+  { name: "Rome", code: "RM" },
+  { name: "London", code: "LDN" },
+  { name: "Istanbul", code: "IST" },
+  { name: "Paris", code: "PRS" },
+]);
+
 const selected_securities = ref();
 const metaKey = ref(true);
 
@@ -97,6 +106,7 @@ const file_import = (event) => {
 
     data2.value = rows;
     select_table_dialog.value = true;
+
     //console.log(rows);
     //await insert_rows(rows);
     //router.push("/securities");
@@ -259,9 +269,18 @@ const file_import = (event) => {
       scrollHeight="flex"
       tableStyle="min-width: 50rem"
     >
-      <Column field="c1" header="c1"></Column>
-      <Column field="c2" header="c2"></Column>
-      <Column field="c3" header="c3"></Column>
+      <Column field="c1">
+        <template #header>
+          <Select
+            v-model="selected_city"
+            :options="cities"
+            optionLabel="name"
+            class="w-full md:w-56"
+          />
+        </template>
+      </Column>
+      <Column field="c2"></Column>
+      <Column field="c3"></Column>
     </DataTable>
     <template #footer>
       <Button label="Ok" icon="pi pi-check" @click="dialogVisible = false" />
