@@ -27,15 +27,6 @@ const items = ref([
     command: () => {
       router.push("/securities");
     },
-    items: [
-      {
-        label: "Add Securities",
-        icon: "pi pi-list",
-        command: () => {
-          router.push("/add_securities");
-        },
-      },
-    ],
   },
   {
     label: "Dividends",
@@ -43,15 +34,6 @@ const items = ref([
     command: () => {
       router.push("/dividends");
     },
-    items: [
-      {
-        label: "Add Dividends",
-        icon: "pi pi-list",
-        command: () => {
-          router.push("/add_dividends");
-        },
-      },
-    ],
   },
   {
     label: "Settings",
