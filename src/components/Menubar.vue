@@ -3,15 +3,10 @@
   https://primevue.org/icons/#download
 */
 
-import Menubar from "primevue/menubar";
-import Add2Desktop from "../components/Add2Desktop.vue";
 import { ref, inject, onMounted } from "vue";
 import { useRouter } from "vue-router";
-import InputText from "primevue/inputtext";
-import Button from "primevue/button";
 import "primeicons/primeicons.css";
 const router = useRouter();
-import AutoComplete from "primevue/autocomplete";
 
 const items = ref([
   {

@@ -3,12 +3,6 @@
   https://primevue.org/datatable/
 ******************************************************/
 import { onMounted, ref, inject } from "vue";
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
-import Button from "primevue/button";
-//import ColumnGroup from "primevue/columngroup";
-import Row from "primevue/row";
-import Toolbar from "primevue/toolbar";
 
 const log = inject("logService");
 const worker = inject("Worker");

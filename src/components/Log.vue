@@ -1,6 +1,4 @@
 <script setup>
-import Textarea from "primevue/textarea";
-import IftaLabel from "primevue/iftalabel";
 import { ref, onMounted, inject } from "vue";
 const logger = ref([]);
 //logger.value = "xxxxx";

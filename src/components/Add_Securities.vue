@@ -1,17 +1,7 @@
 <script setup>
 import { ref, onMounted, inject } from "vue";
 import { useRouter } from "vue-router";
-import Button from "primevue/button";
-import InputText from "primevue/inputtext";
-import IftaLabel from "primevue/iftalabel";
-import FileUpload from "primevue/fileupload";
-import Fieldset from "primevue/fieldset";
 import { useToast } from "primevue/usetoast";
-import DataTable from "primevue/datatable";
-import Column from "primevue/column";
-import Toolbar from "primevue/toolbar";
-import Toast from "primevue/toast";
-import Papa from "papaparse";
 
 const log = inject("logService");
 const worker = inject("Worker");
