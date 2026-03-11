@@ -2,6 +2,7 @@
 import { ref, onMounted, inject } from "vue";
 import { useRouter } from "vue-router";
 import { useToast } from "primevue/usetoast";
+import Papa from "papaparse";
 
 const log = inject("logService");
 const worker = inject("Worker");

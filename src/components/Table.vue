@@ -3,12 +3,13 @@
   https://primevue.org/datatable/
 ******************************************************/
 import { onMounted, ref, inject } from "vue";
-
+import Papa from "papaparse";
 const log = inject("logService");
 const worker = inject("Worker");
 const Workers = inject("Workers");
 
 const data = ref([]);
+const data2 = ref([]);
 const category = ref("test");
 
 const dt = ref();
@@ -23,8 +24,9 @@ const metaKey = ref(true);
 const exportCSV = () => {
   dt.value.exportCSV();
 };
-const new_security_box = ref(false);
+const new_security_dialog = ref(false);
 const delete_security_dialog = ref(false);
+const select_table_dialog = ref(false);
 
 onMounted(async () => {
   let msg = await Workers.post_message(worker, "init", "my message");
@@ -51,22 +53,15 @@ const delete_selected_securities = async () => {
   delete_security_dialog.value = false;
 };
 
-const delete_securities = async () => {
-  console.log("xxxx");
-  //let msg = await Workers.post_message(worker, "delete_rows", "securities");
-  //log.info(msg);
-  //data.value = await Workers.post_message(worker, "get_rows");
+const open_new_security_dialog = () => {
+  new_security_dialog.value = true;
 };
 
-const open_new_security_box = () => {
-  new_security_box.value = true;
+const close_new_security_dialog = () => {
+  new_security_dialog.value = false;
 };
 
-const close_new_security_box = () => {
-  new_security_box.value = false;
-};
-
-const save_new_security_box = async () => {
+const save_new_security_dialog = async () => {
   if (name.value != "" && code.value != "" && parseFloat(qty.value)) {
     let msg = await Workers.post_message(worker, "insert_row", {
       name: name.value,
@@ -77,8 +72,42 @@ const save_new_security_box = async () => {
     name.value = "";
     qty.value = "";
     data.value = await Workers.post_message(worker, "get_rows");
-    new_security_box.value = false;
+    new_security_dialog.value = false;
   }
+};
+
+const file_import = (event) => {
+  const file = event.files[0];
+  const file_name = event.files[0].name;
+  const reader = new FileReader();
+  reader.onload = async (e) => {
+    let rows = [];
+    const file_content = e.target.result;
+    const d = Papa.parse(file_content).data;
+    for (let i in d) {
+      if (d[i].length === 3) {
+        const c1 = d[i][0];
+        const c2 = d[i][1];
+        const c3 = d[i][2];
+        const row = { c1: c1, c2: c2, c3: c3 };
+        rows.push(row);
+      }
+    }
+    //console.log(rows);
+
+    data2.value = rows;
+    select_table_dialog.value = true;
+    //console.log(rows);
+    //await insert_rows(rows);
+    //router.push("/securities");
+    //console.log(data);
+  };
+  reader.onerror = (error) => {
+    console.log("...error");
+    console.log(error);
+  };
+
+  reader.readAsText(file);
 };
 </script>
 <template>
@@ -88,7 +117,7 @@ const save_new_security_box = async () => {
         label="New"
         icon="pi pi-plus"
         class="mr-2"
-        @click="open_new_security_box"
+        @click="open_new_security_dialog"
       />
       <Button
         label="Delete All"
@@ -111,6 +140,7 @@ const save_new_security_box = async () => {
         class="mr-2"
         auto
         :chooseButtonProps="{ severity: 'secondary' }"
+        @select="file_import"
       />
       <Button
         label="Export"
@@ -126,6 +156,7 @@ const save_new_security_box = async () => {
     ref="dt"
     v-model:selection="selected_securities"
     :dataKey="id"
+    size="small"
     tableStyle="min-width: 50rem"
     class="p-datatable-sm p-datatable-gridlines p-datatable-striped"
     responsiveLayout="scroll"
@@ -140,7 +171,7 @@ const save_new_security_box = async () => {
   </DataTable>
 
   <Dialog
-    v-model:visible="new_security_box"
+    v-model:visible="new_security_dialog"
     modal
     header="Insert new Security"
     :style="{ width: '25rem' }"
@@ -173,12 +204,12 @@ const save_new_security_box = async () => {
         type="button"
         label="Cancel"
         severity="secondary"
-        @click="close_new_security_box"
+        @click="close_new_security_dialog"
       ></Button>
       <Button
         type="button"
         label="Save"
-        @click="save_new_security_box"
+        @click="save_new_security_dialog"
       ></Button>
     </div>
   </Dialog>
@@ -211,6 +242,29 @@ const save_new_security_box = async () => {
         @click="delete_selected_securities"
         severity="danger"
       />
+    </template>
+  </Dialog>
+
+  <Dialog
+    v-model:visible="select_table_dialog"
+    header="Select Rows"
+    :style="{ width: '75vw' }"
+    maximizable
+    modal
+    :contentStyle="{ height: '300px' }"
+  >
+    <DataTable
+      :value="data2"
+      scrollable
+      scrollHeight="flex"
+      tableStyle="min-width: 50rem"
+    >
+      <Column field="c1" header="c1"></Column>
+      <Column field="c2" header="c2"></Column>
+      <Column field="c3" header="c3"></Column>
+    </DataTable>
+    <template #footer>
+      <Button label="Ok" icon="pi pi-check" @click="dialogVisible = false" />
     </template>
   </Dialog>
 </template>

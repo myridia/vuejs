@@ -54,8 +54,7 @@ const app = createApp(App)
   .component("Add2Desktop", Add2Desktop)
   .component("Prime_Breadcrumb", Prime_Breadcrumb)
   .component("Dialog", Dialog)
-  .component("Textarea", Textarea)
-  .component("Papa", Papa);
+  .component("Textarea", Textarea);
 
 app.provide("Worker", worker);
 
@@ -64,6 +63,7 @@ app
   .use(worker)
   .use(Workers)
   .use(router)
+
   .use(ToastService);
 
 app.use(PrimeVue, {
