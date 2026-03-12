@@ -18,14 +18,28 @@ const name = ref("");
 const code = ref("");
 const qty = ref("");
 
-const selected_city = ref();
-const cities = ref([
-  { name: "New York", code: "NY" },
-  { name: "Rome", code: "RM" },
-  { name: "London", code: "LDN" },
-  { name: "Istanbul", code: "IST" },
-  { name: "Paris", code: "PRS" },
+const selected_field1 = ref();
+const selected_field2 = ref();
+const selected_field3 = ref();
+const fields = ref([
+  { name: "Code", code: "code" },
+  { name: "Name", code: "name" },
+  { name: "Qty", code: "qty" },
 ]);
+
+const fields1 = ref([...fields.value]);
+const fields2 = ref([...fields.value]);
+const fields3 = ref([...fields.value]);
+const selecting_field1 = () => {
+  let a = [];
+  if (selected_field2.value !== undefined) {
+    a.push(selected_field2.value.code);
+  }
+  if (selected_field3.value !== undefined) {
+    a.push(selected_field3.value.code);
+  }
+  fields1.value = fields.value.filter((item) => !a.includes(item.code));
+};
 
 const selected_securities = ref();
 const metaKey = ref(true);
@@ -272,15 +286,36 @@ const file_import = (event) => {
       <Column field="c1">
         <template #header>
           <Select
-            v-model="selected_city"
-            :options="cities"
+            v-model="selected_field1"
+            :options="fields1"
             optionLabel="name"
             class="w-full md:w-56"
+            @before-show="selecting_field1"
           />
         </template>
       </Column>
-      <Column field="c2"></Column>
-      <Column field="c3"></Column>
+      <Column field="c2">
+        <template #header>
+          <Select
+            v-model="selected_field2"
+            :options="fields2"
+            optionLabel="name"
+            class="w-full md:w-56"
+            @before-show="selecting_field2"
+          />
+        </template>
+      </Column>
+      <Column field="c3">
+        <template #header>
+          <Select
+            v-model="selected_field3"
+            :options="fields3"
+            optionLabel="name"
+            class="w-full md:w-56"
+            @before-show="selecting_field3"
+          />
+        </template>
+      </Column>
     </DataTable>
     <template #footer>
       <Button label="Ok" icon="pi pi-check" @click="dialogVisible = false" />
