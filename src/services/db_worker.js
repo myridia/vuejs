@@ -60,26 +60,6 @@ const insert_rows = async (rows) => {
 };
 
 /*************************************************************************************
- Delete Securities
-**************************************************************************************/
-const delete_rows = async (table) => {
-  const f = await db.exec({
-    sql: "DELETE FROM " + table,
-    returnValue: "resultRows",
-    rowMode: "object",
-  });
-
-  const f2 = await db.exec({
-    sql: "DELETE FROM sqlite_sequence WHERE name = '" + table + "'",
-    returnValue: "resultRows",
-    rowMode: "object",
-  });
-
-  //console.log(f);
-  return "rows_deleted";
-};
-
-/*************************************************************************************
  Get Rows Securities
 **************************************************************************************/
 const get_rows = async () => {
@@ -107,31 +87,60 @@ const get_names = async () => {
   return data;
 };
 
+/*************************************************************************************
+ Delete by ides
+**************************************************************************************/
+const delete_by_ids = async (payload) => {
+  const table = payload["table"];
+  const ids = payload["ids"];
+  const sql = "DELETE FROM " + table + " WHERE id IN (" + ids.join(",") + ")";
+  const f = await db.exec({
+    sql: sql,
+    returnValue: "resultRows",
+    rowMode: "object",
+  });
+
+  const f2 = await db.exec({
+    sql: "DELETE FROM sqlite_sequence WHERE name = '" + table + "'",
+    returnValue: "resultRows",
+    rowMode: "object",
+  });
+
+  return "rows deleted";
+};
+
+/*************************************************************************************
+ Delete all rows
+**************************************************************************************/
+const delete_rows = async (table) => {
+  const f = await db.exec({
+    sql: "DELETE FROM " + table,
+    returnValue: "resultRows",
+    rowMode: "object",
+  });
+
+  // Vacum the table
+  const f2 = await db.exec({
+    sql: "DELETE FROM sqlite_sequence WHERE name = '" + table + "'",
+    returnValue: "resultRows",
+    rowMode: "object",
+  });
+
+  //console.log(f);
+  return "rows_deleted";
+};
+
 self.onmessage = async (evento) => {
   const id = evento.data[0];
-  const message = evento.data[1];
+  const payload = evento.data[1];
   switch (id) {
     case "test":
       await init();
-      self.postMessage([id, "your message was:" + message]);
+      self.postMessage([id, "your message was:" + payload]);
       break;
     case "init":
       await init();
       self.postMessage([id, "init db"]);
-      break;
-    case "insert_row":
-      const msg = await insert_row(message.name, message.code, message.qty);
-      self.postMessage([id, msg]);
-      break;
-
-    case "insert_rows":
-      const msg3 = await insert_rows(message);
-      self.postMessage([id, msg3]);
-      break;
-
-    case "delete_rows":
-      const msg2 = await delete_rows(message);
-      self.postMessage([id, msg2]);
       break;
     case "get_rows":
       const rows = await get_rows();
@@ -142,6 +151,25 @@ self.onmessage = async (evento) => {
       await init();
       const names = await get_names();
       self.postMessage([id, names]);
+      break;
+
+    case "insert_row":
+      const msg = await insert_row(payload.name, payload.code, payload.qty);
+      self.postMessage([id, msg]);
+      break;
+
+    case "insert_rows":
+      const msg3 = await insert_rows(payload);
+      self.postMessage([id, msg3]);
+      break;
+
+    case "delete_rows":
+      const msg2 = await delete_rows(payload);
+      self.postMessage([id, msg2]);
+      break;
+    case "delete_by_ids":
+      const msg4 = await delete_by_ids(payload);
+      self.postMessage([id, msg4]);
       break;
   }
 };
