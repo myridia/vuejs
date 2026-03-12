@@ -8,6 +8,7 @@ const log = inject("logService");
 const worker = inject("Worker");
 const Workers = inject("Workers");
 
+const message = ref("");
 const data = ref([]);
 const data2 = ref([]);
 const category = ref("test");
@@ -18,27 +19,75 @@ const name = ref("");
 const code = ref("");
 const qty = ref("");
 
-const selected_field1 = ref();
-const selected_field2 = ref();
-const selected_field3 = ref();
+const selected_field1 = ref("");
+const selected_field2 = ref("");
+const selected_field3 = ref("");
 const fields = ref([
-  { name: "Code", code: "code" },
+  { name: "", code: "" },
   { name: "Name", code: "name" },
+  { name: "Code", code: "code" },
   { name: "Qty", code: "qty" },
 ]);
 
 const fields1 = ref([...fields.value]);
 const fields2 = ref([...fields.value]);
 const fields3 = ref([...fields.value]);
+
 const selecting_field1 = () => {
   let a = [];
-  if (selected_field2.value !== undefined) {
+  message.value = "";
+  if (selected_field2.value !== "") {
     a.push(selected_field2.value.code);
   }
-  if (selected_field3.value !== undefined) {
+  if (selected_field3.value !== "") {
     a.push(selected_field3.value.code);
   }
+  a = a.filter(function (element) {
+    return element !== "";
+  });
   fields1.value = fields.value.filter((item) => !a.includes(item.code));
+};
+
+const selecting_field2 = () => {
+  let a = [];
+  message.value = "";
+  if (selected_field1.value !== "") {
+    a.push(selected_field1.value.code);
+  }
+  if (selected_field3.value !== "") {
+    a.push(selected_field3.value.code);
+  }
+  a = a.filter(function (element) {
+    return element !== "";
+  });
+  fields2.value = fields.value.filter((item) => !a.includes(item.code));
+};
+
+const selecting_field3 = () => {
+  let a = [];
+  message.value = "";
+  if (selected_field1.value !== "") {
+    a.push(selected_field1.value.code);
+  }
+  if (selected_field2.value !== "") {
+    a.push(selected_field2.value.code);
+  }
+  a = a.filter(function (element) {
+    return element !== "";
+  });
+  fields3.value = fields.value.filter((item) => !a.includes(item.code));
+};
+
+const insert_csv_rows = () => {
+  console.log(data2.value);
+  if (
+    selected_field1.value !== "" &&
+    selected_field2.value !== "" &&
+    selected_field3.value !== ""
+  ) {
+  } else {
+    message.value = "Please define all columns names";
+  }
 };
 
 const selected_securities = ref();
@@ -287,6 +336,7 @@ const file_import = (event) => {
         <template #header>
           <Select
             v-model="selected_field1"
+            :invalid="!selected_field1"
             :options="fields1"
             optionLabel="name"
             class="w-full md:w-56"
@@ -299,6 +349,7 @@ const file_import = (event) => {
           <Select
             v-model="selected_field2"
             :options="fields2"
+            :invalid="!selected_field2"
             optionLabel="name"
             class="w-full md:w-56"
             @before-show="selecting_field2"
@@ -309,6 +360,7 @@ const file_import = (event) => {
         <template #header>
           <Select
             v-model="selected_field3"
+            :invalid="!selected_field3"
             :options="fields3"
             optionLabel="name"
             class="w-full md:w-56"
@@ -318,7 +370,8 @@ const file_import = (event) => {
       </Column>
     </DataTable>
     <template #footer>
-      <Button label="Ok" icon="pi pi-check" @click="dialogVisible = false" />
+      <Message severity="error" v-if="message"> {{ message }}</Message>
+      <Button label="Ok" icon="pi pi-check" @click="insert_csv_rows" />
     </template>
   </Dialog>
 </template>

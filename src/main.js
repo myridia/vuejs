@@ -31,6 +31,7 @@ import Papa from "papaparse";
 import Prime_Breadcrumb from "primevue/breadcrumb";
 import Textarea from "primevue/textarea";
 import Dialog from "primevue/dialog";
+import Message from "primevue/message";
 
 //import worker_service from "./services/Worker_service.js";
 const worker = new Worker(new URL("./services/db_worker.js", import.meta.url), {
@@ -58,6 +59,7 @@ const app = createApp(App)
   .component("Add2Desktop", Add2Desktop)
   .component("Prime_Breadcrumb", Prime_Breadcrumb)
   .component("Dialog", Dialog)
+  .component("Message", Message)
   .component("Textarea", Textarea);
 
 app.provide("Worker", worker);
