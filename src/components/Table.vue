@@ -228,7 +228,6 @@ const file_import = (event) => {
     :value="data"
     ref="dt"
     v-model:selection="selected_securities"
-    :dataKey="id"
     size="small"
     tableStyle="min-width: 50rem"
     class="p-datatable-sm p-datatable-gridlines p-datatable-striped"

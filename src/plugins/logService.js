@@ -1,7 +1,7 @@
 import { Log2textarea } from "log2textarea/dist/log2textarea.esm.js";
 import { onMounted, ref } from "vue";
 
-export default {
+const LogService = {
   install: (app, options) => {
     const log = ref(null);
     const logService = {
@@ -22,3 +22,5 @@ export default {
     app.provide("logService", logService);
   },
 };
+
+export default LogService;
