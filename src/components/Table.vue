@@ -79,12 +79,20 @@ const selecting_field3 = () => {
 };
 
 const insert_csv_rows = () => {
-  console.log(data2.value);
   if (
     selected_field1.value !== "" &&
     selected_field2.value !== "" &&
     selected_field3.value !== ""
   ) {
+    let data3 = [];
+    for (let i in data2.value) {
+      let r = [];
+      r[selected_field1.value.code] = data2.value[i].c1;
+      r[selected_field2.value.code] = data2.value[i].c2;
+      r[selected_field3.value.code] = data2.value[i].c3;
+      data3.push(r);
+    }
+    console.log(data3);
   } else {
     message.value = "Please define all columns names";
   }
