@@ -1,6 +1,6 @@
 import sqlite3InitModule from "@sqlite.org/sqlite-wasm";
 
-const DB_NAME = "personas.sqlite";
+const DB_NAME = "securities.sqlite";
 let db;
 
 /*************************************************************************************
@@ -55,7 +55,8 @@ const insert_rows = async (rows) => {
     stmt.step();
     stmt.reset();
   }
-  await db.exec("COMMIT");
+  const r = await db.exec("COMMIT");
+  return r.filename;
   //stmt.free();
 };
 

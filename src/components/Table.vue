@@ -95,10 +95,15 @@ const insert_csv_rows = async () => {
         r["qty"] = r["qty"].replace(/,/g, ".");
         //console.log(r["qty"]);
       }
+      const num = parseFloat(r["qty"]);
+      r["qty"] = !isNaN(num) ? num : 0.0;
       data3.push(r);
     }
 
-    //let msg = await Workers.post_message(worker, "insert_rows", data3);
+    let msg = await Workers.post_message(worker, "insert_rows", data3);
+    data.value = await Workers.post_message(worker, "get_rows");
+    //console.log(msg);
+    select_table_dialog.value = false;
   } else {
     message.value = "Please define all columns names";
   }
