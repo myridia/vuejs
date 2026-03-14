@@ -32,7 +32,7 @@ import Prime_Breadcrumb from "primevue/breadcrumb";
 import Textarea from "primevue/textarea";
 import Dialog from "primevue/dialog";
 import Message from "primevue/message";
-
+import Ripple from "primevue/ripple";
 //import worker_service from "./services/Worker_service.js";
 const worker = new Worker(new URL("./services/db_worker.js", import.meta.url), {
   type: "module",
@@ -51,7 +51,6 @@ const app = createApp(App)
   .component("Menubar", Menubar)
   .component("InputText", InputText)
   .component("Select", Select)
-  .component("Add2Desktop", Add2Desktop)
   .component("FileUpload", FileUpload)
   .component("Fieldset", Fieldset)
   .component("IftaLabel", IftaLabel)
@@ -63,13 +62,13 @@ const app = createApp(App)
   .component("Textarea", Textarea);
 
 app.provide("Worker", worker);
+app.directive("ripple", Ripple);
 
 app
   .use(logServicePlugin)
   .use(worker)
   .use(Workers)
   .use(router)
-
   .use(ToastService);
 
 app.use(PrimeVue, {
