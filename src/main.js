@@ -33,6 +33,7 @@ import Textarea from "primevue/textarea";
 import Dialog from "primevue/dialog";
 import Message from "primevue/message";
 import Ripple from "primevue/ripple";
+import IconField from "primevue/iconfield";
 //import worker_service from "./services/Worker_service.js";
 const worker = new Worker(new URL("./services/db_worker.js", import.meta.url), {
   type: "module",
@@ -59,6 +60,7 @@ const app = createApp(App)
   .component("Prime_Breadcrumb", Prime_Breadcrumb)
   .component("Dialog", Dialog)
   .component("Message", Message)
+  .component("IconField", IconField)
   .component("Textarea", Textarea);
 
 app.provide("Worker", worker);
