@@ -9,11 +9,14 @@ import Aura from "@primeuix/themes/aura";
 import logServicePlugin from "./plugins/logService";
 import Workers from "./plugins/Workers";
 import ToastService from "primevue/toastservice";
+import AutoComplete from "primevue/autocomplete";
 import Table from "./components/Table.vue";
 import Breadcrumb from "./components/Breadcrumb.vue";
 import Add_Securities from "./components/Add_Securities.vue";
 import Add2Desktop from "./components/Add2Desktop.vue";
-import AutoComplete from "primevue/autocomplete";
+import Contact_Form from "./components/Contact_Form.vue";
+
+import { Form } from "@primevue/forms";
 
 import DataTable from "primevue/datatable";
 import Column from "primevue/column";
@@ -42,11 +45,13 @@ const worker = new Worker(new URL("./services/db_worker.js", import.meta.url), {
 const app = createApp(App)
   .component("AutoComplete", AutoComplete)
   .component("Table", Table)
+  .component("Contact_Form", Contact_Form)
   .component("Breadcrumb", Breadcrumb)
   .component("Add_Securities", Add_Securities)
   .component("DataTable", DataTable)
   .component("Column", Column)
   .component("Button", Button)
+  .component("Form", Form)
   .component("Row", Row)
   .component("Toolbar", Toolbar)
   .component("Menubar", Menubar)
