@@ -78,7 +78,7 @@ const selecting_field3 = () => {
   fields3.value = fields.value.filter((item) => !a.includes(item.code));
 };
 
-const insert_csv_rows = () => {
+const insert_csv_rows = async () => {
   if (
     selected_field1.value !== "" &&
     selected_field2.value !== "" &&
@@ -90,13 +90,37 @@ const insert_csv_rows = () => {
       r[selected_field1.value.code] = data2.value[i].c1;
       r[selected_field2.value.code] = data2.value[i].c2;
       r[selected_field3.value.code] = data2.value[i].c3;
+      if (detect_number_format(r["qty"]) == "german") {
+        r["qty"] = r["qty"].replace(/\./g, "");
+        r["qty"] = r["qty"].replace(/,/g, ".");
+        //console.log(r["qty"]);
+      }
+      const num = parseFloat(r["qty"]);
+      r["qty"] = !isNaN(num) ? num : 0.0;
       data3.push(r);
     }
-    console.log(data3);
+
+    let msg = await Workers.post_message(worker, "insert_rows", data3);
+    data.value = await Workers.post_message(worker, "get_rows");
+    //console.log(msg);
+    select_table_dialog.value = false;
   } else {
     message.value = "Please define all columns names";
   }
 };
+
+function detect_number_format(number_string) {
+  number_string = number_string.trim();
+  const german_format = /^(\d{1,3}(\.\d{3})*|\d+),\d+$/;
+  const american_format = /^(\d{1,3}(,\d{3})*|\d+)\.\d+$/;
+  if (german_format.test(number_string)) {
+    return "german";
+  } else if (american_format.test(number_string)) {
+    return "american";
+  } else {
+    return "unknown";
+  }
+}
 
 const selected_securities = ref();
 const metaKey = ref(true);

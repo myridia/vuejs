@@ -10,6 +10,7 @@ const items = ref([
 
 <template>
   <Breadcrumb :items="items" />
+  <Contact_Form />
 </template>
 
 <style></style>
