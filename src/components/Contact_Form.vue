@@ -5,54 +5,52 @@ const log = inject("logService");
 </script>
 
 <template>
-  <Form
-    v-slot="$form"
-    :initialValues
-    :resolver
-    :validateOnValueUpdate="false"
-    :validateOnBlur="true"
-    :validateOnMount="['firstName']"
-    @submit="onFormSubmit"
-    class="flex flex-col gap-4 w-full sm:w-56"
-  >
-    <div class="flex flex-col gap-1">
-      <InputText name="username" type="text" placeholder="Username" fluid />
-      <Message
-        v-if="$form.username?.invalid"
-        severity="error"
-        size="small"
-        variant="simple"
-        >{{ $form.username.error.message }}</Message
-      >
-    </div>
-    <div class="flex flex-col gap-1">
-      <InputText
-        name="firstName"
-        type="text"
-        placeholder="First Name"
-        fluid
-        :formControl="{ validateOnValueUpdate: true }"
-      />
-      <Message
-        v-if="$form.firstName?.invalid"
-        severity="error"
-        size="small"
-        variant="simple"
-        >{{ $form.firstName.error.message }}</Message
-      >
-    </div>
-    <div class="flex flex-col gap-1">
-      <InputText name="lastName" type="text" placeholder="Last Name" fluid />
-      <Message
-        v-if="$form.lastName?.invalid"
-        severity="error"
-        size="small"
-        variant="simple"
-        >{{ $form.lastName.error.message }}</Message
-      >
-    </div>
-    <Button type="submit" severity="secondary" label="Submit" />
-  </Form>
+  <div class="flex contact_form">
+    <Form
+      v-slot="$form"
+      :resolver="resolver"
+      :initialValues="initialValues"
+      @submit="onFormSubmit"
+      class="flex justify-center flex-col gap-4"
+    >
+      <div class="flex flex-col gap-1">
+        <InputText name="email" type="text" placeholder="Email" />
+        <Message
+          v-if="$form.email?.invalid"
+          severity="error"
+          size="small"
+          variant="simple"
+          >{{ $form.email.error?.message }}</Message
+        >
+      </div>
+      <div class="flex flex-col gap-1">
+        <IftaLabel>
+          <Textarea
+            id="description"
+            v-model="value"
+            rows="5"
+            cols="30"
+            style="resize: none"
+          />
+          <label for="description">Message</label>
+        </IftaLabel>
+        <Message
+          v-if="$form.address?.invalid"
+          severity="error"
+          size="small"
+          variant="simple"
+          >{{ $form.address.error?.message }}</Message
+        >
+      </div>
+
+      <Button type="submit" severity="secondary" label="Submit" />
+    </Form>
+  </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.contact_form {
+  display: flex;
+  justify-content: center;
+}
+</style>
