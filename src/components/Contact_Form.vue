@@ -1,56 +1,77 @@
 <script setup>
-import { ref, onMounted, inject } from "vue";
+import { ref, onMounted, inject, reactive } from "vue";
 
 const log = inject("logService");
+
+const resolver = ({ values }) => {
+  const errors = {};
+  if (!values.email) {
+    errors.email = [{ message: "Email is requiredxxxx." }];
+  }
+
+  if (!values.msg) {
+    errors.msg = [{ message: "A message is required." }];
+  }
+
+  return {
+    values,
+    errors,
+  };
+};
+
+const on_form_submit = ({ valid, values }) => {
+  if (valid) {
+    console.log(values.email);
+    console.log(values.msg);
+    const mlink =
+      "mailto:vuejs@myridia.com?subject=contact&body=email: " +
+      values.email +
+      "  " +
+      " body: " +
+      values.msg;
+    window.location.href = mlink;
+  }
+};
 </script>
 
 <template>
-  <div class="flex contact_form">
-    <Form
-      v-slot="$form"
-      :resolver="resolver"
-      :initialValues="initialValues"
-      @submit="onFormSubmit"
-      class="flex justify-center flex-col gap-4"
-    >
-      <div class="flex flex-col gap-1">
-        <InputText name="email" type="text" placeholder="Email" />
-        <Message
-          v-if="$form.email?.invalid"
-          severity="error"
-          size="small"
-          variant="simple"
-          >{{ $form.email.error?.message }}</Message
-        >
-      </div>
-      <div class="flex flex-col gap-1">
-        <IftaLabel>
-          <Textarea
-            id="description"
-            v-model="value"
-            rows="5"
-            cols="30"
-            style="resize: none"
-          />
-          <label for="description">Message</label>
-        </IftaLabel>
-        <Message
-          v-if="$form.address?.invalid"
-          severity="error"
-          size="small"
-          variant="simple"
-          >{{ $form.address.error?.message }}</Message
-        >
-      </div>
+  <Form
+    v-slot="$form"
+    :resolver="resolver"
+    @submit="on_form_submit"
+    class="contact_form flex flex-col gap-4 w-full sm:w-56"
+  >
+    <FormField v-slot="$field" name="email" class="flex flex-col gap-1">
+      <InputText name="email" type="email" placeholder="Email" />
+      <Message
+        v-if="$form.email?.invalid"
+        severity="error"
+        size="small"
+        variant="simple"
+        >{{ $form.email.error?.message }}</Message
+      >
+    </FormField>
 
-      <Button type="submit" severity="secondary" label="Submit" />
-    </Form>
-  </div>
+    <FormField v-slot="$field" name="msg" class="flex flex-col gap-1">
+      <IftaLabel>
+        <Textarea name="msg" rows="5" style="resize: true; width: 100%" />
+        <label for="mesg">Message</label>
+      </IftaLabel>
+      <Message
+        v-if="$form.msg?.invalid"
+        severity="error"
+        size="small"
+        variant="simple"
+        >{{ $form.msg.error?.message }}</Message
+      >
+    </FormField>
+
+    <Button type="submit" severity="secondary" label="Submit" />
+  </Form>
 </template>
 
 <style scoped>
-.contact_form {
-  display: flex;
-  justify-content: center;
+.contact_form input[type="email"] {
+  margin-bottom: 10px;
 }
 </style>
