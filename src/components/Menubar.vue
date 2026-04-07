@@ -17,31 +17,10 @@ const items = ref([
     },
   },
   {
-    label: "Securities",
+    label: "Table",
     icon: "pi pi-building-columns",
     command: () => {
-      router.push("/securities");
-    },
-  },
-  {
-    label: "Dividends",
-    icon: "pi pi-building-columns",
-    command: () => {
-      router.push("/dividends");
-    },
-  },
-  {
-    label: "Settings",
-    icon: "pi pi-cog",
-    command: () => {
-      router.push("/login");
-    },
-  },
-  {
-    label: "About",
-    icon: "pi pi-link",
-    command: () => {
-      router.push("/about");
+      router.push("/table");
     },
   },
   {
