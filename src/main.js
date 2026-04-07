@@ -52,6 +52,7 @@ const app = createApp(App)
   .component("Column", Column)
   .component("Button", Button)
   .component("Form", Form)
+
   .component("Row", Row)
   .component("Toolbar", Toolbar)
   .component("Menubar", Menubar)
