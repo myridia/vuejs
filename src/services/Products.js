@@ -1,5 +1,4 @@
 // services/ProductService.js
-import Product from "../models/Product";
 
 class Products {
   async get() {
