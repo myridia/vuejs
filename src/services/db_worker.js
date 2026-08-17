@@ -17,7 +17,7 @@ const init = async () => {
       "OPFS is available, create a persisted database at " + db.filename;
     self.postMessage(["log_message", msg]);
   } else {
-    db = new sqlite3.oo1.DB(NOMBRE_BASE_DE_DATOS, "ct");
+    db = new sqlite3.oo1.DB(DB_NAME, "ct");
     const msg =
       "OPFS is NOT available,create a transient database" + db.filename;
     self.postMessage(["log_message", msg]);
