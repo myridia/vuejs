@@ -1,3 +1,5 @@
+<img src="vuejs.svg" alt="vuejs" width="120">
+
 # ![libre-jqgrid](public/img/logo.png) Vuejs Starter 
 
 * Demo https://vuejs.myridia.com
