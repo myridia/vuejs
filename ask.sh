@@ -1,5 +1,5 @@
 
-echo -e "What you like to do?, enter a Task Id from list below: \n"
+echo -e "What would you like to do? Enter a Task ID from the list below: \n"
 echo -e "TaskID\tFile\t\tDescription"
 echo -e "1\t Run Docker - Docker Test Enviroment "
 echo -e "2\t Stop Docker"
